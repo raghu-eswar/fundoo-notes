@@ -6,6 +6,10 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import { IconButton } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { withRouter } from "react-router-dom";
 import * as Styled from "../styles/signIn.styled";
 
@@ -18,9 +22,12 @@ class SignIn extends React.Component {
       emailError: "",
       passwordError: "",
       error: "",
+      showPassword: false,
     };
   }
 
+  toggleShowPassword = () =>
+    this.setState({ showPassword: !this.state.showPassword });
   render() {
     return (
       <Styled.MainContainer component="main" maxWidth="xs">
@@ -58,6 +65,22 @@ class SignIn extends React.Component {
               type={this.state.showPassword ? "text" : "password"}
               error={this.state.passwordError}
               helperText={this.state.passwordError}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={this.toggleShowPassword}
+                    >
+                      {this.state.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
