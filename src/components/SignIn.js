@@ -11,6 +11,7 @@ import { IconButton } from "@material-ui/core";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { withRouter } from "react-router-dom";
+import { logIn } from "../services/userServices";
 import * as Styled from "../styles/signIn.styled";
 
 class SignIn extends React.Component {
@@ -33,6 +34,7 @@ class SignIn extends React.Component {
     this.setState({ email: event.target.value });
     if (this.state.emailError) this.validateEmail(event);
   };
+
   validateEmail = (event) => {
     let email = event.target.value;
     if (
@@ -44,10 +46,12 @@ class SignIn extends React.Component {
       this.setState({ emailError: "invalid user name" });
     else this.setState({ emailError: "" });
   };
+
   updatePassword = (event) => {
     this.setState({ password: event.target.value });
     if (this.state.passwordError) this.validatePassword(event);
   };
+
   validatePassword = (event) => {
     let password = event.target.value;
     if (
@@ -58,6 +62,21 @@ class SignIn extends React.Component {
     )
       this.setState({ passwordError: "invalid password" });
     else this.setState({ passwordError: "" });
+  };
+
+  login = (event) => {
+    event.preventDefault();
+    let logInData = { email: this.state.email, password: this.state.password };
+    logIn(logInData)
+      .then((response) => {
+        if (response.status === 200) this.props.history.push("home");
+      })
+      .catch((error) => {
+        if (error.response.data.error.code === "LOGIN_FAILED") {
+          this.setState({ error: "invalid email or password" });
+          setTimeout(() => this.setState({ error: "" }), 3000);
+        }
+      });
   };
 
   render() {
@@ -75,7 +94,7 @@ class SignIn extends React.Component {
           >
             Sign in
           </Typography>
-          <Styled.LogInForm>
+          <Styled.LogInForm onSubmit={this.login}>
             <TextField
               variant="outlined"
               margin="normal"
