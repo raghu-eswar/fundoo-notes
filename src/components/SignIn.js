@@ -28,6 +28,38 @@ class SignIn extends React.Component {
 
   toggleShowPassword = () =>
     this.setState({ showPassword: !this.state.showPassword });
+
+  updateEmail = (event) => {
+    this.setState({ email: event.target.value });
+    if (this.state.emailError) this.validateEmail(event);
+  };
+  validateEmail = (event) => {
+    let email = event.target.value;
+    if (
+      !/^[a-zA-Z0-9$&+_-]+(\.[a-zA-Z0-9]+)*@([a-z0-9]+([a-z0-9-]*)\.)+[a-z]{2,4}$/.test(
+        email
+      ) &&
+      email
+    )
+      this.setState({ emailError: "invalid user name" });
+    else this.setState({ emailError: "" });
+  };
+  updatePassword = (event) => {
+    this.setState({ password: event.target.value });
+    if (this.state.passwordError) this.validatePassword(event);
+  };
+  validatePassword = (event) => {
+    let password = event.target.value;
+    if (
+      !/(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,}/.test(
+        password
+      ) &&
+      password
+    )
+      this.setState({ passwordError: "invalid password" });
+    else this.setState({ passwordError: "" });
+  };
+
   render() {
     return (
       <Styled.MainContainer component="main" maxWidth="xs">
@@ -43,7 +75,7 @@ class SignIn extends React.Component {
           >
             Sign in
           </Typography>
-          <Styled.LogInForm onSubmit={this.login}>
+          <Styled.LogInForm>
             <TextField
               variant="outlined"
               margin="normal"
@@ -54,6 +86,8 @@ class SignIn extends React.Component {
               autoFocus
               error={this.state.emailError}
               helperText={this.state.emailError}
+              onChange={this.updateEmail}
+              onBlur={this.validateEmail}
             />
             <TextField
               variant="outlined"
@@ -65,6 +99,8 @@ class SignIn extends React.Component {
               type={this.state.showPassword ? "text" : "password"}
               error={this.state.passwordError}
               helperText={this.state.passwordError}
+              onChange={this.updatePassword}
+              onBlur={this.validatePassword}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -92,6 +128,7 @@ class SignIn extends React.Component {
               fullWidth
               variant="contained"
               color="primary"
+              disabled={this.state.emailError || this.state.passwordError}
             >
               Sign In
             </Styled.StyledButton>
