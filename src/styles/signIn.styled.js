@@ -16,6 +16,8 @@ export const MainContent = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding-bottom: 1rem;
+  box-shadow: -1px 2px 8px 0 rgba(0, 0, 0, 0.2), 1px 0px 15px 0 rgba(0, 0, 0, 0.15);
 `;
 export const LogInForm = styled.form`
   width: 85%;
