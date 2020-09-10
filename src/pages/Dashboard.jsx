@@ -14,6 +14,7 @@ class Dashboard extends React.Component {
   componentDidMount() {
     this.fixLayOut();
     window.addEventListener("resize", this.fixLayOut);
+    this.setState({user: JSON.parse(localStorage.getItem("user"))});
   }
 
   fixLayOut = () => {
@@ -35,8 +36,8 @@ class Dashboard extends React.Component {
         <AppHeader
           handleDrawerOpen={this.handleDrawerOpen}
           isGrid
-          imageUrl="/"
-          firstLetter="R"
+          imageUrl={this.state.user? process.env.API_BASE_URL+this.state.user.imageUrl: ""}
+          firstLetter={this.state.user? this.state.user.email.charAt(0).toUpperCase(): ""}
         ></AppHeader>
         <Styled.MainContainer>
           <SideNavBar open={this.state.openMenu} />
