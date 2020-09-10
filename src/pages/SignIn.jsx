@@ -69,7 +69,17 @@ class SignIn extends React.Component {
     let logInData = { email: this.state.email, password: this.state.password };
     logIn(logInData)
       .then((response) => {
-        if (response.status === 200) this.props.history.push("home");
+        if (response.status === 200) {
+          let user = {
+            token: response.data.id,
+            firstName: response.data.firstName,
+            lastName: response.data.lastName,
+            email: response.data.email,
+            imageUrl: response.data.imageUrl,
+          };
+          localStorage.setItem("user", JSON.stringify(user));
+          this.props.history.push("home");
+        }
       })
       .catch((error) => {
         if (error.response.data.error.code === "LOGIN_FAILED") {
