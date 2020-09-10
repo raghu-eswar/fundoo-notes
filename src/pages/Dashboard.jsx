@@ -42,7 +42,7 @@ class Dashboard extends React.Component {
         <Styled.MainContainer>
           <SideNavBar open={this.state.openMenu} />
           <div style={{ width: "100%" }}>
-            <AddNewNote />
+            <AddNewNote token={this.state.user ? this.state.user.token : ""}/>
             <Styled.NotesContainer className="notesContainer"></Styled.NotesContainer>
           </div>
         </Styled.MainContainer>
