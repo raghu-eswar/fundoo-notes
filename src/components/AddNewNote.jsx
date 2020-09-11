@@ -48,6 +48,7 @@ export default function AddNewNote(props) {
           if (response.status === 200) { 
             setOpen(false);
             setNote(reset())
+            props.updateNotes(props.token);
           }
         })
         .catch((error) => console.log(error));
