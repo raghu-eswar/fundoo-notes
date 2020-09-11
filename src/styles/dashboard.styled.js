@@ -6,4 +6,5 @@ export const MainContainer = styled.div `
 export const NotesContainer = styled.div `
     width: 100%;
     text-align: center;
+    padding: 10px;
 `
