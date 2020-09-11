@@ -12,7 +12,10 @@ import * as Styled from "../styles/note.styled";
 
 export default function Note(props) {
   return (
-    <Styled.NoteContainer className="note">
+    <Styled.NoteContainer
+      className="note"
+      onClick={() => props.openNote(props.note)}
+    >
       <CardContent>
         <Styled.TitleContainer>
           <Typography variant="h6" align="left">
