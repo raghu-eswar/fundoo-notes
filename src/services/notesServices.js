@@ -12,3 +12,9 @@ export function getNotesList(token) {
         headers: {Authorization: token,}
     })
 }
+
+export function updateNotes(note, token) {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.updateNotes, note, {
+        headers: {Authorization: token,}
+    })
+}
