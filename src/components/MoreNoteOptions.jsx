@@ -4,7 +4,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 export default function MoreNoteOptions(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <MoreVertIcon />
     </IconButton>
   );

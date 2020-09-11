@@ -4,7 +4,7 @@ import AddAlertSharpIcon from "@material-ui/icons/AddAlertSharp";
 
 export default function Reminder(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <AddAlertSharpIcon />
     </IconButton>
   );

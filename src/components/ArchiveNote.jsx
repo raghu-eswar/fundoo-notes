@@ -4,7 +4,7 @@ import ArchiveIcon from '@material-ui/icons/Archive';
 
 export default function ArchiveNote(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <ArchiveIcon />
     </IconButton>
   );

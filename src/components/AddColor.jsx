@@ -4,7 +4,7 @@ import ColorLensIcon from '@material-ui/icons/ColorLens';
 
 export default function AddColor(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <ColorLensIcon />
     </IconButton>
   );

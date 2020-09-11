@@ -4,7 +4,7 @@ import GroupAddOutlinedIcon from '@material-ui/icons/GroupAddOutlined';
 
 export default function Collaborate(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <GroupAddOutlinedIcon />
     </IconButton>
   );

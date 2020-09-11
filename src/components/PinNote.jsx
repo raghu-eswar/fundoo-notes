@@ -4,7 +4,7 @@ import PinDropIcon from "@material-ui/icons/PinDrop";
 
 export default function PinNote(props) {
   return (
-    <IconButton>
+    <IconButton {...props}>
       <PinDropIcon />
     </IconButton>
   );
