@@ -14,6 +14,10 @@ import { changeNoteColor } from "../services/notesServices";
 export default function Note(props) {
   const [note, setNote] = React.useState(props.note);
 
+  React.useEffect(() => {
+    setNote(props.note);
+  }, [props.note]);
+
   const addColor = (color) => {
     setNote({ ...note, color: color.hex });
   };
