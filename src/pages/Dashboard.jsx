@@ -77,7 +77,8 @@ class Dashboard extends React.Component {
               token={this.state.user ? this.state.user.token : ""}
               updateNotes={this.updateNotes}
             />
-            <Styled.NotesContainer className="notesContainer">
+            <Styled.NotesContainer>
+              <div className="notesContainer" style={{margin: 'auto'}}>
               {this.state.notes.map((note) => (
                 <Note
                   note={note}
@@ -85,6 +86,7 @@ class Dashboard extends React.Component {
                   token={this.state.user ? this.state.user.token : ""}
                 />
               ))}
+              </div>
             </Styled.NotesContainer>
           </div>
         </Styled.MainContainer>
