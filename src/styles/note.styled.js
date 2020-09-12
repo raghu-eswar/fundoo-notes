@@ -3,6 +3,7 @@ import Card from "@material-ui/core/Card";
 
 export const NoteContainer = styled(Card)`
   width: 15rem;
+  background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
   button {
     padding: 6px;

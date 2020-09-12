@@ -12,18 +12,26 @@ import * as Styled from "../styles/note.styled";
 
 export default function Note(props) {
   return (
-    <Styled.NoteContainer
-      className="note"
-      onClick={() => props.openNote(props.note)}
-    >
+    <Styled.NoteContainer className="note" backgroundColor={props.note.color}>
       <CardContent>
         <Styled.TitleContainer>
-          <Typography variant="h6" align="left">
+          <Typography
+            variant="h6"
+            align="left"
+            style={{ flex: 1 }}
+            onClick={() => props.openNote(props.note)}
+          >
             {props.note.title}
           </Typography>
           <PinNote />
         </Styled.TitleContainer>
-        <Typography variant="subtitle1" gutterBottom align="left">
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          align="left"
+          style={{ flex: 1 }}
+          onClick={() => props.openNote(props.note)}
+        >
           {props.note.description.split(" ").splice(0, 30).join(" ")}
         </Typography>
         <Styled.DescriptionContainer>

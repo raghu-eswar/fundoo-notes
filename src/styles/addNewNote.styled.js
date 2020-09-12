@@ -4,7 +4,7 @@ import TextField from "@material-ui/core/TextField";
 
 export const MainContainer = styled(Container)`
   margin: 3rem auto;
-  background-color: white;
+  background-color: ${(props) => props.backgroundColor};
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
     0 2px 6px 2px rgba(60, 64, 67, 0.15);
   border-radius: 0.5rem;
