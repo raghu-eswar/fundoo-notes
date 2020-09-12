@@ -87,7 +87,9 @@ class Dashboard extends React.Component {
         <UpdateNote
           open={this.state.noteToUpdate !== null}
           note={this.state.noteToUpdate}
+          token={this.state.user ? this.state.user.token : ""}
           closeNote={this.closeNote}
+          updateNotes={this.updateNotes}
         />
       </>
     );

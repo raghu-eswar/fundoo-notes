@@ -9,6 +9,7 @@ import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import Modal from "@material-ui/core/Modal";
 import * as Styled from "../styles/updateNote.styled";
+import { updateNotes } from "../services/notesServices";
 
 export default function UpdateNote(props) {
   const [open, setOpen] = React.useState(props.open);
@@ -21,11 +22,26 @@ export default function UpdateNote(props) {
     setNote(props.note);
   }, [props.note]);
 
+  const saveNote = () => {
+    if (props.note.title !== note.title || props.note.description !== note.description) {
+      let formData = new FormData();
+      formData.append("noteId", note.id);
+      formData.append("title", note.title);
+      formData.append("description", note.description);
+      updateNotes(formData, props.token).then((response) => {
+        if (response.status === 200) { 
+            props.closeNote();
+            props.updateNotes(props.token);
+        }
+      });
+    }
+    else  props.closeNote();
+  }
   return (
     <Modal
       open={open}
       style={{ margin: "12rem auto", border: "none" }}
-      onClose={props.closeNote}
+      onClose={saveNote}
     >
       <Styled.MainContainer maxWidth="sm">
         <Styled.TitleContainer>
@@ -62,7 +78,7 @@ export default function UpdateNote(props) {
           <ArchiveNote />
           <MoreNoteOptions />
           <Styled.CloseButton>
-            <Button onClick={props.closeNote}>Close</Button>
+            <Button onClick={saveNote}>Close</Button>
           </Styled.CloseButton>
         </Styled.OptionsContainer>
       </Styled.MainContainer>
