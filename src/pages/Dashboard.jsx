@@ -16,6 +16,7 @@ class Dashboard extends React.Component {
       notes: [],
       refresh: false,
       noteToUpdate: null,
+      selectedMenuIndex: 0,
     };
   }
 
@@ -54,6 +55,10 @@ class Dashboard extends React.Component {
   closeNote = () => {
     this.setState({ noteToUpdate: null });
   };
+  selectMenuOption = (selectedMenuIndex) => {
+    if (this.state.selectedMenuIndex !== selectedMenuIndex)
+      this.setState({ selectedMenuIndex: selectedMenuIndex });
+  };
 
   render() {
     return (
@@ -71,21 +76,25 @@ class Dashboard extends React.Component {
           }
         ></AppHeader>
         <Styled.MainContainer>
-          <SideNavBar open={this.state.openMenu} />
+          <SideNavBar
+            open={this.state.openMenu}
+            selectedMenuIndex={this.state.selectedMenuIndex}
+            selectMenuOption={this.selectMenuOption}
+          />
           <div style={{ width: "100%" }}>
             <AddNewNote
               token={this.state.user ? this.state.user.token : ""}
               updateNotes={this.updateNotes}
             />
             <Styled.NotesContainer>
-              <div className="notesContainer" style={{margin: 'auto'}}>
-              {this.state.notes.map((note) => (
-                <Note
-                  note={note}
-                  openNote={this.openNote}
-                  token={this.state.user ? this.state.user.token : ""}
-                />
-              ))}
+              <div className="notesContainer" style={{ margin: "auto" }}>
+                {this.state.notes.map((note) => (
+                  <Note
+                    note={note}
+                    openNote={this.openNote}
+                    token={this.state.user ? this.state.user.token : ""}
+                  />
+                ))}
               </div>
             </Styled.NotesContainer>
           </div>

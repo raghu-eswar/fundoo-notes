@@ -10,7 +10,10 @@ export default function SideNavBar(props) {
   return (
     <Styled.SideDrawNav variant="permanent" isOpen={open}>
       <List>
-        <MenuListItems />
+        <MenuListItems
+          selectedMenuIndex={props.selectedMenuIndex}
+          selectMenuOption={props.selectMenuOption}
+        />
       </List>
       <Divider />
     </Styled.SideDrawNav>
