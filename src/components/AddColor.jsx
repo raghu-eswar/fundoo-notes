@@ -29,6 +29,11 @@ const colors = [
 export default function AddColor(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
+  const closePicker = () => {
+    setAnchorEl(null);
+    if (props.onPickerClose) props.onPickerClose();
+  };
+
   return (
     <div>
       <IconButton
@@ -48,7 +53,7 @@ export default function AddColor(props) {
           vertical: "top",
           horizontal: "left",
         }}
-        onClose={() => setAnchorEl(null)}
+        onClose={closePicker}
       >
         <CirclePicker
           width="250px"
