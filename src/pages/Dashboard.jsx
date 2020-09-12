@@ -61,6 +61,29 @@ class Dashboard extends React.Component {
   };
 
   render() {
+    let displayNotesList = [];
+    if (this.state.notes.length > 0) {
+      switch (this.state.selectedMenuIndex) {
+        case 0:
+          displayNotesList = this.state.notes.filter(
+            (note) => !note.isArchived && !note.isDeleted
+          );
+          break;
+        case 1:
+          displayNotesList = this.state.notes.filter(
+            (note) => note.reminder.length > 0
+          );
+          break;
+        case 3:
+          displayNotesList = this.state.notes.filter((note) => note.isArchived);
+          break;
+        case 4:
+          displayNotesList = this.state.notes.filter((note) => note.isDeleted);
+          break;
+        default:
+          break;
+      }
+    }
     return (
       <>
         <AppHeader
@@ -82,13 +105,16 @@ class Dashboard extends React.Component {
             selectMenuOption={this.selectMenuOption}
           />
           <div style={{ width: "100%" }}>
-            <AddNewNote
-              token={this.state.user ? this.state.user.token : ""}
-              updateNotes={this.updateNotes}
-            />
+            {(this.state.selectedMenuIndex === 0 ||
+              this.state.selectedMenuIndex === 1) && (
+              <AddNewNote
+                token={this.state.user ? this.state.user.token : ""}
+                updateNotes={this.updateNotes}
+              />
+            )}
             <Styled.NotesContainer>
               <div className="notesContainer" style={{ margin: "auto" }}>
-                {this.state.notes.map((note) => (
+                {displayNotesList.map((note) => (
                   <Note
                     note={note}
                     openNote={this.openNote}
