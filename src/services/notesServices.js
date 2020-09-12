@@ -18,3 +18,8 @@ export function updateNotes(note, token) {
         headers: {Authorization: token,}
     })
 }
+export function changeNoteColor(data, token) {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.changesColorNotes, data, {
+        headers: {Authorization: token,}
+    })
+}
