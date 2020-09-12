@@ -1,11 +1,11 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
-import PinDropIcon from "@material-ui/icons/PinDrop";
+import Icon from '@material-ui/core/Icon';
 
 export default function PinNote(props) {
   return (
     <IconButton {...props}>
-      <PinDropIcon />
+      <Icon className="fa fa-thumb-tack"/>
     </IconButton>
   );
 }
