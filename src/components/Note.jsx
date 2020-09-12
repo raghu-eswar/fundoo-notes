@@ -9,19 +9,31 @@ import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import * as Styled from "../styles/note.styled";
+import { changeNoteColor } from "../services/notesServices";
 
 export default function Note(props) {
+  const [note, setNote] = React.useState(props.note);
+
+  const addColor = (color) => {
+    setNote({ ...note, color: color.hex });
+  };
+
+  const saveColor = () => {
+    let data = { color: note.color, noteIdList: [note.id] };
+    changeNoteColor(data, props.token);
+  };
+
   return (
-    <Styled.NoteContainer className="note" backgroundColor={props.note.color}>
+    <Styled.NoteContainer className="note" backgroundColor={note.color}>
       <CardContent>
         <Styled.TitleContainer>
           <Typography
             variant="h6"
             align="left"
             style={{ flex: 1 }}
-            onClick={() => props.openNote(props.note)}
+            onClick={() => props.openNote(note)}
           >
-            {props.note.title}
+            {note.title}
           </Typography>
           <PinNote />
         </Styled.TitleContainer>
@@ -30,14 +42,14 @@ export default function Note(props) {
           gutterBottom
           align="left"
           style={{ flex: 1 }}
-          onClick={() => props.openNote(props.note)}
+          onClick={() => props.openNote(note)}
         >
-          {props.note.description.split(" ").splice(0, 30).join(" ")}
+          {note.description.split(" ").splice(0, 30).join(" ")}
         </Typography>
         <Styled.DescriptionContainer>
           <Reminder />
           <Collaborate />
-          <AddColor />
+          <AddColor addColor={addColor} onPickerClose={saveColor} />
           <AddImage />
           <ArchiveNote />
           <MoreNoteOptions />

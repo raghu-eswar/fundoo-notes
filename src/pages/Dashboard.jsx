@@ -79,7 +79,11 @@ class Dashboard extends React.Component {
             />
             <Styled.NotesContainer className="notesContainer">
               {this.state.notes.map((note) => (
-                <Note note={note} openNote={this.openNote} />
+                <Note
+                  note={note}
+                  openNote={this.openNote}
+                  token={this.state.user ? this.state.user.token : ""}
+                />
               ))}
             </Styled.NotesContainer>
           </div>
