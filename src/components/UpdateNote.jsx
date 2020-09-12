@@ -44,8 +44,8 @@ export default function UpdateNote(props) {
       formData.append("description", note.description);
       updateNotes(formData, props.token).then((response) => {
         if (response.status === 200) {
-          !update && setUpdate(true);
           props.closeNote();
+          props.updateNotes(props.token);
         }
       });
     } else props.closeNote();
