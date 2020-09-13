@@ -13,6 +13,7 @@ import {
   changeNoteColor,
   pinUnpinNotes,
   archiveNotes,
+  trashNotes,
 } from "../services/notesServices";
 
 export default function Note(props) {
@@ -47,6 +48,15 @@ export default function Note(props) {
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
+  const deleteNote = () => {
+    let data = { isDeleted: !note.isDeleted, noteIdList: [note.id] };
+    trashNotes(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
+
+  const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
+  const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
 
   return (
     <Styled.NoteContainer
@@ -83,7 +93,9 @@ export default function Note(props) {
             isArchived={note.isArchived}
             toggleArchive={toggleArchive}
           />
-          <MoreNoteOptions />
+          <MoreNoteOptions
+            menuItems={note.isDeleted ? deletedNoteOptions : activeNoteOptions}
+          />
         </Styled.DescriptionContainer>
       </CardContent>
     </Styled.NoteContainer>
