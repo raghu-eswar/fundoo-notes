@@ -44,6 +44,7 @@ export default function AddNewNote(props) {
       formData.append("title", note.title);
       formData.append("description", note.description);
       formData.append("color", note.color);
+      formData.append("isPined", note.isPined);
       addNotes(formData, props.token)
         .then((response) => {
           if (response.status === 200) {
@@ -63,6 +64,10 @@ export default function AddNewNote(props) {
     setNote({ ...note, color: color.hex });
   };
 
+  const togglePin = () => {
+    setNote({...note, isPined: !note.isPined});
+  }
+
   return (
     <Styled.MainContainer maxWidth="sm" backgroundColor={note.color}>
       <Styled.TitleContainer open={open}>
@@ -74,7 +79,7 @@ export default function AddNewNote(props) {
           onChange={(event) => setNote({ ...note, title: event.target.value })}
           value={note.title}
         />
-        <PinNote />
+        <PinNote isPined={note.isPined} togglePin={togglePin}/>
       </Styled.TitleContainer>
       <Styled.NoteContainer>
         <Styled.StyledInput
