@@ -9,7 +9,11 @@ import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import * as Styled from "../styles/note.styled";
-import { changeNoteColor, pinUnpinNotes } from "../services/notesServices";
+import {
+  changeNoteColor,
+  pinUnpinNotes,
+  archiveNotes,
+} from "../services/notesServices";
 
 export default function Note(props) {
   const [note, setNote] = React.useState(props.note);
@@ -33,6 +37,13 @@ export default function Note(props) {
     setNote({ ...note, isPined: !note.isPined });
     let data = { isPined: !note.isPined, noteIdList: [note.id] };
     pinUnpinNotes(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
+  const toggleArchive = () => {
+    setNote({ ...note, isArchived: !note.isArchived });
+    let data = { isArchived: !note.isArchived, noteIdList: [note.id] };
+    archiveNotes(data, props.token).then(
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
@@ -68,7 +79,10 @@ export default function Note(props) {
           <Collaborate />
           <AddColor addColor={addColor} onPickerClose={saveColor} />
           <AddImage />
-          <ArchiveNote />
+          <ArchiveNote
+            isArchived={note.isArchived}
+            toggleArchive={toggleArchive}
+          />
           <MoreNoteOptions />
         </Styled.DescriptionContainer>
       </CardContent>
