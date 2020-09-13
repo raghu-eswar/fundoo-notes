@@ -101,7 +101,7 @@ export default function AddNewNote(props) {
       <Styled.OptionsContainer open={open}>
         <Reminder />
         <Collaborate />
-        <AddColor addColor={addColor} />
+        <AddColor addColor={addColor} color={note.color} />
         <AddImage />
         <ArchiveNote
           isArchived={note.isArchived}

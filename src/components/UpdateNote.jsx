@@ -120,7 +120,11 @@ export default function UpdateNote(props) {
         <Styled.OptionsContainer>
           <Reminder />
           <Collaborate />
-          <AddColor addColor={addColor} onPickerClose={saveColor} />
+          <AddColor
+            addColor={addColor}
+            onPickerClose={saveColor}
+            color={open && note.color}
+          />
           <AddImage />
           <ArchiveNote
             isArchived={open && note.isArchived}

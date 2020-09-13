@@ -88,7 +88,11 @@ export default function Note(props) {
           {!note.isDeleted && <Reminder />}
           {!note.isDeleted && <Collaborate />}
           {!note.isDeleted && (
-            <AddColor addColor={addColor} onPickerClose={saveColor} />
+            <AddColor
+              color={note.color}
+              addColor={addColor}
+              onPickerClose={saveColor}
+            />
           )}
           {!note.isDeleted && <AddImage />}
           {!note.isDeleted && (
