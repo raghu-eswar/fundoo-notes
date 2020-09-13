@@ -1,5 +1,6 @@
 import React from "react";
 import Minigrid from "minigrid";
+import Divider from "@material-ui/core/Divider";
 import AppHeader from "../components/AppHeader";
 import AddNewNote from "../components/AddNewNote";
 import SideNavBar from "../components/SideNavBar";
@@ -37,12 +38,18 @@ class Dashboard extends React.Component {
       .catch((error) => console.log(error));
   };
   fixLayOut = () => {
-    var grid = new Minigrid({
+    var unPinedGrid = new Minigrid({
       container: ".notesContainer",
       item: ".note",
       gutter: 15,
     });
-    grid.mount();
+    var pinedGrid = new Minigrid({
+      container: ".pinedNotesContainer",
+      item: ".pinedNote",
+      gutter: 15,
+    });
+    unPinedGrid.mount();
+    pinedGrid.mount();
   };
 
   handleDrawerOpen = () => {
@@ -113,14 +120,28 @@ class Dashboard extends React.Component {
               />
             )}
             <Styled.NotesContainer>
+              <div className="pinedNotesContainer" style={{ margin: "auto" }}>
+                {displayNotesList
+                  .filter((note) => note.isPined)
+                  .map((note) => (
+                    <Note
+                      note={note}
+                      openNote={this.openNote}
+                      token={this.state.user ? this.state.user.token : ""}
+                    />
+                  ))}
+              </div>
+              <Divider />
               <div className="notesContainer" style={{ margin: "auto" }}>
-                {displayNotesList.map((note) => (
-                  <Note
-                    note={note}
-                    openNote={this.openNote}
-                    token={this.state.user ? this.state.user.token : ""}
-                  />
-                ))}
+                {displayNotesList
+                  .filter((note) => !note.isPined)
+                  .map((note) => (
+                    <Note
+                      note={note}
+                      openNote={this.openNote}
+                      token={this.state.user ? this.state.user.token : ""}
+                    />
+                  ))}
               </div>
             </Styled.NotesContainer>
           </div>

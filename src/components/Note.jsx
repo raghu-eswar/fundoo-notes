@@ -28,7 +28,7 @@ export default function Note(props) {
   };
 
   return (
-    <Styled.NoteContainer className="note" backgroundColor={note.color}>
+    <Styled.NoteContainer className={note.isPined?"pinedNote":"note"} backgroundColor={note.color}>
       <CardContent>
         <Styled.TitleContainer>
           <Typography
@@ -39,7 +39,7 @@ export default function Note(props) {
           >
             {note.title}
           </Typography>
-          <PinNote />
+          <PinNote isPined={note.isPined}/>
         </Styled.TitleContainer>
         <Typography
           variant="subtitle1"
