@@ -45,6 +45,7 @@ export default function AddNewNote(props) {
       formData.append("description", note.description);
       formData.append("color", note.color);
       formData.append("isPined", note.isPined);
+      formData.append("isArchived", note.isArchived);
       addNotes(formData, props.token)
         .then((response) => {
           if (response.status === 200) {
@@ -65,8 +66,11 @@ export default function AddNewNote(props) {
   };
 
   const togglePin = () => {
-    setNote({...note, isPined: !note.isPined});
-  }
+    setNote({ ...note, isPined: !note.isPined });
+  };
+  const toggleArchive = () => {
+    setNote({ ...note, isArchived: !note.isArchived });
+  };
 
   return (
     <Styled.MainContainer maxWidth="sm" backgroundColor={note.color}>
@@ -79,7 +83,7 @@ export default function AddNewNote(props) {
           onChange={(event) => setNote({ ...note, title: event.target.value })}
           value={note.title}
         />
-        <PinNote isPined={note.isPined} togglePin={togglePin}/>
+        <PinNote isPined={note.isPined} togglePin={togglePin} />
       </Styled.TitleContainer>
       <Styled.NoteContainer>
         <Styled.StyledInput
@@ -99,7 +103,10 @@ export default function AddNewNote(props) {
         <Collaborate />
         <AddColor addColor={addColor} />
         <AddImage />
-        <ArchiveNote />
+        <ArchiveNote
+          isArchived={note.isArchived}
+          toggleArchive={toggleArchive}
+        />
         <MoreNoteOptions />
         <Styled.CloseButton>
           <Button onClick={saveNote}>Close</Button>
