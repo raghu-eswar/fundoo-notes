@@ -62,7 +62,7 @@ class Dashboard extends React.Component {
     setTimeout(this.fixLayOut, 0);
   };
   openNote = (note) => {
-    this.setState({ noteToUpdate: note });
+    if (!note.isDeleted) this.setState({ noteToUpdate: note });
   };
   closeNote = () => {
     this.setState({ noteToUpdate: null });

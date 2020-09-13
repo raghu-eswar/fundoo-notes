@@ -85,14 +85,18 @@ export default function Note(props) {
           {note.description.split(" ").splice(0, 30).join(" ")}
         </Typography>
         <Styled.DescriptionContainer>
-          <Reminder />
-          <Collaborate />
-          <AddColor addColor={addColor} onPickerClose={saveColor} />
-          <AddImage />
-          <ArchiveNote
-            isArchived={note.isArchived}
-            toggleArchive={toggleArchive}
-          />
+          {!note.isDeleted && <Reminder />}
+          {!note.isDeleted && <Collaborate />}
+          {!note.isDeleted && (
+            <AddColor addColor={addColor} onPickerClose={saveColor} />
+          )}
+          {!note.isDeleted && <AddImage />}
+          {!note.isDeleted && (
+            <ArchiveNote
+              isArchived={note.isArchived}
+              toggleArchive={toggleArchive}
+            />
+          )}
           <MoreNoteOptions
             menuItems={note.isDeleted ? deletedNoteOptions : activeNoteOptions}
           />
