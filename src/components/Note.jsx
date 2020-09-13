@@ -9,7 +9,7 @@ import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import * as Styled from "../styles/note.styled";
-import { changeNoteColor } from "../services/notesServices";
+import { changeNoteColor, pinUnpinNotes } from "../services/notesServices";
 
 export default function Note(props) {
   const [note, setNote] = React.useState(props.note);
@@ -27,8 +27,19 @@ export default function Note(props) {
     changeNoteColor(data, props.token);
   };
 
+  const togglePin = () => {
+    setNote({ ...note, isPined: !note.isPined });
+    let data = { isPined: !note.isPined, noteIdList: [note.id] };
+    pinUnpinNotes(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
+
   return (
-    <Styled.NoteContainer className={note.isPined?"pinedNote":"note"} backgroundColor={note.color}>
+    <Styled.NoteContainer
+      className={note.isPined ? "pinedNote" : "note"}
+      backgroundColor={note.color}
+    >
       <CardContent>
         <Styled.TitleContainer>
           <Typography
@@ -39,7 +50,7 @@ export default function Note(props) {
           >
             {note.title}
           </Typography>
-          <PinNote isPined={note.isPined}/>
+          <PinNote isPined={note.isPined} togglePin={togglePin} />
         </Styled.TitleContainer>
         <Typography
           variant="subtitle1"

@@ -128,6 +128,7 @@ class Dashboard extends React.Component {
                       note={note}
                       openNote={this.openNote}
                       token={this.state.user ? this.state.user.token : ""}
+                      updateNotes={this.updateNotes}
                     />
                   ))}
               </div>
@@ -140,6 +141,7 @@ class Dashboard extends React.Component {
                       note={note}
                       openNote={this.openNote}
                       token={this.state.user ? this.state.user.token : ""}
+                      updateNotes={this.updateNotes}
                     />
                   ))}
               </div>
