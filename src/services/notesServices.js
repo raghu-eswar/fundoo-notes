@@ -23,3 +23,8 @@ export function changeNoteColor(data, token) {
         headers: {Authorization: token,}
     })
 }
+export const pinUnpinNotes = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.pinUnpinNotes, data, {
+        headers: {Authorization: token,}
+    })
+}
