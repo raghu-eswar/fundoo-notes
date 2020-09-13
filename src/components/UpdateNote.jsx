@@ -13,6 +13,7 @@ import {
   updateNotes,
   changeNoteColor,
   pinUnpinNotes,
+  archiveNotes,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -62,6 +63,13 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
+  const toggleArchive = () => {
+    setNote({ ...note, isArchived: !note.isArchived });
+    let data = { isArchived: !note.isArchived, noteIdList: [note.id] };
+    archiveNotes(data, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
   return (
     <Modal
       open={open}
@@ -100,7 +108,10 @@ export default function UpdateNote(props) {
           <Collaborate />
           <AddColor addColor={addColor} onPickerClose={saveColor} />
           <AddImage />
-          <ArchiveNote />
+          <ArchiveNote
+            isArchived={open && note.isArchived}
+            toggleArchive={toggleArchive}
+          />
           <MoreNoteOptions />
           <Styled.CloseButton>
             <Button onClick={saveNote}>Close</Button>
