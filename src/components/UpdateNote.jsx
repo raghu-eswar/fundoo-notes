@@ -14,6 +14,7 @@ import {
   changeNoteColor,
   pinUnpinNotes,
   archiveNotes,
+  trashNotes,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -70,6 +71,19 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
+  const deleteNote = () => {
+    let data = { isDeleted: !note.isDeleted, noteIdList: [note.id] };
+    trashNotes(data, props.token).then((response) => {
+      if (response.data.data.success) {
+        props.closeNote();
+        props.updateNotes(props.token);
+      }
+    });
+  };
+
+  const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
+  const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
+
   return (
     <Modal
       open={open}
@@ -112,7 +126,11 @@ export default function UpdateNote(props) {
             isArchived={open && note.isArchived}
             toggleArchive={toggleArchive}
           />
-          <MoreNoteOptions />
+          <MoreNoteOptions
+            menuItems={
+              open && note.isDeleted ? deletedNoteOptions : activeNoteOptions
+            }
+          />
           <Styled.CloseButton>
             <Button onClick={saveNote}>Close</Button>
           </Styled.CloseButton>
