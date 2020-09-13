@@ -33,3 +33,8 @@ export const archiveNotes = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const trashNotes = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.trashNotes, data, {
+        headers: {Authorization: token,}
+    })
+}
