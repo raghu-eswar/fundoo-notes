@@ -28,3 +28,8 @@ export const pinUnpinNotes = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const archiveNotes = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.archiveNotes, data, {
+        headers: {Authorization: token,}
+    })
+}

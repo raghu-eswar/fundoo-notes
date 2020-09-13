@@ -4,4 +4,5 @@ export const notesApiConstants = {
     updateNotes: '/api/notes/updateNotes',
     changesColorNotes: '/api/notes/changesColorNotes',
     pinUnpinNotes: '/api/notes/pinUnpinNotes',
+    archiveNotes: '/api/notes/archiveNotes',
 }
