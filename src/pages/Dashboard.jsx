@@ -28,7 +28,12 @@ class Dashboard extends React.Component {
     this.setState({ user: user });
   }
   componentDidUpdate() {
-    if (this.state.notes.length > 0) this.fixLayOut();
+    this.fixLayOut();
+    setTimeout(this.fixLayOut, 100);
+    if (this.unPinedGrid.children.length <= 0)
+      this.unPinedGrid.style.height = "0px";
+    if (this.pinedGrid.children.length <= 0)
+      this.pinedGrid.style.height = "0px";
   }
   updateNotes = (token) => {
     getNotesList(token)
@@ -38,12 +43,12 @@ class Dashboard extends React.Component {
       .catch((error) => console.log(error));
   };
   fixLayOut = () => {
-    var unPinedGrid = new Minigrid({
+    let unPinedGrid = new Minigrid({
       container: ".notesContainer",
       item: ".note",
       gutter: 15,
     });
-    var pinedGrid = new Minigrid({
+    let pinedGrid = new Minigrid({
       container: ".pinedNotesContainer",
       item: ".pinedNote",
       gutter: 15,
@@ -120,7 +125,11 @@ class Dashboard extends React.Component {
               />
             )}
             <Styled.NotesContainer>
-              <div className="pinedNotesContainer" style={{ margin: "auto" }}>
+              <div
+                className="pinedNotesContainer"
+                style={{ margin: "auto" }}
+                ref={(element) => (this.pinedGrid = element)}
+              >
                 {displayNotesList
                   .filter((note) => note.isPined)
                   .map((note) => (
@@ -132,8 +141,14 @@ class Dashboard extends React.Component {
                     />
                   ))}
               </div>
-              <Divider />
-              <div className="notesContainer" style={{ margin: "auto" }}>
+              {displayNotesList.filter((note) => note.isPined).length > 0 && (
+                <Divider />
+              )}
+              <div
+                className="notesContainer"
+                style={{ margin: "auto" }}
+                ref={(element) => (this.unPinedGrid = element)}
+              >
                 {displayNotesList
                   .filter((note) => !note.isPined)
                   .map((note) => (
