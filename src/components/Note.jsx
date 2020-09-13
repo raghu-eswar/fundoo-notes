@@ -24,7 +24,9 @@ export default function Note(props) {
 
   const saveColor = () => {
     let data = { color: note.color, noteIdList: [note.id] };
-    changeNoteColor(data, props.token);
+    changeNoteColor(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
   };
 
   const togglePin = () => {
