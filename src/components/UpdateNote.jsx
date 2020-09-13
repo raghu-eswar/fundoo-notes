@@ -9,7 +9,11 @@ import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import Modal from "@material-ui/core/Modal";
 import * as Styled from "../styles/updateNote.styled";
-import { updateNotes, changeNoteColor } from "../services/notesServices";
+import {
+  updateNotes,
+  changeNoteColor,
+  pinUnpinNotes,
+} from "../services/notesServices";
 
 export default function UpdateNote(props) {
   const [open, setOpen] = React.useState(props.open);
@@ -51,6 +55,13 @@ export default function UpdateNote(props) {
     } else props.closeNote();
     if (update) props.updateNotes(props.token);
   };
+  const togglePin = () => {
+    setNote({ ...note, isPined: !note.isPined });
+    let data = { isPined: !note.isPined, noteIdList: [note.id] };
+    pinUnpinNotes(data, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
   return (
     <Modal
       open={open}
@@ -69,7 +80,7 @@ export default function UpdateNote(props) {
             }
             value={open && note.title}
           />
-          <PinNote />
+          <PinNote isPined={open && note.isPined} togglePin={togglePin} />
         </Styled.TitleContainer>
         <Styled.NoteContainer>
           <Styled.StyledInput
