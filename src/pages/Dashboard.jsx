@@ -83,11 +83,11 @@ class Dashboard extends React.Component {
           break;
         case 1:
           displayNotesList = this.state.notes.filter(
-            (note) => note.reminder.length > 0
+            (note) => note.reminder.length > 0 && !note.isDeleted
           );
           break;
         case 3:
-          displayNotesList = this.state.notes.filter((note) => note.isArchived);
+          displayNotesList = this.state.notes.filter((note) => note.isArchived && !note.isDeleted);
           break;
         case 4:
           displayNotesList = this.state.notes.filter((note) => note.isDeleted);
