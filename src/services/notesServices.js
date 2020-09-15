@@ -38,3 +38,8 @@ export const trashNotes = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const addUpdateReminderNotes = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.addUpdateReminderNotes, data, {
+        headers: {Authorization: token,}
+    })
+}
