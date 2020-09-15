@@ -8,12 +8,14 @@ import AddColor from "./AddColor";
 import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
+import ReminderChip from "./ReminderChip";
 import * as Styled from "../styles/note.styled";
 import {
   changeNoteColor,
   pinUnpinNotes,
   archiveNotes,
   trashNotes,
+  addUpdateReminderNotes,
 } from "../services/notesServices";
 
 export default function Note(props) {
@@ -55,6 +57,14 @@ export default function Note(props) {
     );
   };
 
+  const addReminder = (reminder) => {
+    setNote({ ...note, reminder: [reminder] });
+    let data = { reminder: reminder, noteIdList: [note.id] };
+    addUpdateReminderNotes(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
+
   const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
   const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
 
@@ -84,8 +94,11 @@ export default function Note(props) {
         >
           {note.description.split(" ").splice(0, 30).join(" ")}
         </Typography>
+        {note.reminder.length > 0 && <ReminderChip reminder={note.reminder[0]} />}
         <Styled.DescriptionContainer>
-          {!note.isDeleted && <Reminder />}
+          {!note.isDeleted && (
+            <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
+          )}
           {!note.isDeleted && <Collaborate />}
           {!note.isDeleted && (
             <AddColor

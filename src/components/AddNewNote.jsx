@@ -7,6 +7,7 @@ import AddColor from "./AddColor";
 import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
+import ReminderChip from './ReminderChip';
 import * as Styled from "../styles/addNewNote.styled";
 import { addNotes } from "../services/notesServices";
 
@@ -46,6 +47,7 @@ export default function AddNewNote(props) {
       formData.append("color", note.color);
       formData.append("isPined", note.isPined);
       formData.append("isArchived", note.isArchived);
+      formData.append("reminder", note.reminder[0]);
       addNotes(formData, props.token)
         .then((response) => {
           if (response.status === 200) {
@@ -70,6 +72,9 @@ export default function AddNewNote(props) {
   };
   const toggleArchive = () => {
     setNote({ ...note, isArchived: !note.isArchived });
+  };
+  const addReminder = (reminder) => {
+    setNote({ ...note, reminder: [reminder] });
   };
 
   return (
@@ -98,8 +103,9 @@ export default function AddNewNote(props) {
         />
         <AddImage style={{ display: open ? "none" : "inline-flex" }} />
       </Styled.NoteContainer>
+      {(open && note.reminder.length>0) && <ReminderChip reminder={note.reminder[0]}/>}
       <Styled.OptionsContainer open={open}>
-        <Reminder />
+        <Reminder addReminder={addReminder} reminder={note.reminder[0]}/>
         <Collaborate />
         <AddColor addColor={addColor} color={note.color} />
         <AddImage />

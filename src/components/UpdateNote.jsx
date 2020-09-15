@@ -8,6 +8,7 @@ import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import Modal from "@material-ui/core/Modal";
+import ReminderChip from "./ReminderChip";
 import * as Styled from "../styles/updateNote.styled";
 import {
   updateNotes,
@@ -15,6 +16,7 @@ import {
   pinUnpinNotes,
   archiveNotes,
   trashNotes,
+  addUpdateReminderNotes
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -81,8 +83,15 @@ export default function UpdateNote(props) {
     });
   };
 
+  const addReminder = (reminder) => {
+    setNote({ ...note, reminder: [reminder] });
+    let data = { reminder: reminder, noteIdList: [note.id] };
+    addUpdateReminderNotes(data, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
+
   const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
-  const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
 
   return (
     <Modal
@@ -115,10 +124,10 @@ export default function UpdateNote(props) {
             }
             value={open && note.description}
           />
-          <AddImage style={{ display: open ? "none" : "inline-flex" }} />
         </Styled.NoteContainer>
+        {(open && note.reminder.length > 0) && <ReminderChip reminder={note.reminder[0]} />}
         <Styled.OptionsContainer>
-          <Reminder />
+          <Reminder addReminder={addReminder} reminder={open && note.reminder[0]}/>
           <Collaborate />
           <AddColor
             addColor={addColor}
@@ -130,11 +139,7 @@ export default function UpdateNote(props) {
             isArchived={open && note.isArchived}
             toggleArchive={toggleArchive}
           />
-          <MoreNoteOptions
-            menuItems={
-              open && note.isDeleted ? deletedNoteOptions : activeNoteOptions
-            }
-          />
+          <MoreNoteOptions menuItems={activeNoteOptions} />
           <Styled.CloseButton>
             <Button onClick={saveNote}>Close</Button>
           </Styled.CloseButton>
