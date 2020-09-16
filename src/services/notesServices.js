@@ -43,3 +43,8 @@ export const addUpdateReminderNotes = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const removeReminderNotes = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.removeReminderNotes, data, {
+        headers: {Authorization: token,}
+    })
+}

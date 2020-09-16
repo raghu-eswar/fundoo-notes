@@ -6,5 +6,6 @@ export const notesApiConstants = {
     pinUnpinNotes: '/api/notes/pinUnpinNotes',
     archiveNotes: '/api/notes/archiveNotes',
     trashNotes: '/api/notes/trashNotes',
-    addUpdateReminderNotes: '/api/notes/addUpdateReminderNotes'
+    addUpdateReminderNotes: '/api/notes/addUpdateReminderNotes',
+    removeReminderNotes: '/api/notes/removeReminderNotes',
 }
