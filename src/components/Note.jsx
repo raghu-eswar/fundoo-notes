@@ -16,6 +16,7 @@ import {
   archiveNotes,
   trashNotes,
   addUpdateReminderNotes,
+  removeReminderNotes,
 } from "../services/notesServices";
 
 export default function Note(props) {
@@ -64,6 +65,13 @@ export default function Note(props) {
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
+  const removeReminder = (reminder) => {
+    setNote({ ...note, reminder: [] });
+    let data = { noteIdList: [note.id] };
+    removeReminderNotes(data, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
 
   const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
   const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
@@ -94,7 +102,12 @@ export default function Note(props) {
         >
           {note.description.split(" ").splice(0, 30).join(" ")}
         </Typography>
-        {note.reminder.length > 0 && <ReminderChip reminder={note.reminder[0]} />}
+        {note.reminder.length > 0 && (
+          <ReminderChip
+            reminder={note.reminder[0]}
+            deleteReminder={removeReminder}
+          />
+        )}
         <Styled.DescriptionContainer>
           {!note.isDeleted && (
             <Reminder addReminder={addReminder} reminder={note.reminder[0]} />

@@ -5,6 +5,9 @@ export const NoteContainer = styled(Card)`
   width: 15rem;
   background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
+  .MuiCardContent-root {
+    padding: 0 16px;
+  }
   button {
     padding: 6px;
     visibility: hidden;

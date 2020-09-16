@@ -7,7 +7,7 @@ import AddColor from "./AddColor";
 import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
-import ReminderChip from './ReminderChip';
+import ReminderChip from "./ReminderChip";
 import * as Styled from "../styles/addNewNote.styled";
 import { addNotes } from "../services/notesServices";
 
@@ -47,7 +47,7 @@ export default function AddNewNote(props) {
       formData.append("color", note.color);
       formData.append("isPined", note.isPined);
       formData.append("isArchived", note.isArchived);
-      formData.append("reminder", note.reminder[0]);
+      note.reminder.length>0 && formData.append("reminder", note.reminder[0])
       addNotes(formData, props.token)
         .then((response) => {
           if (response.status === 200) {
@@ -76,6 +76,9 @@ export default function AddNewNote(props) {
   const addReminder = (reminder) => {
     setNote({ ...note, reminder: [reminder] });
   };
+  const removeReminder = () => {
+    setNote({ ...note, reminder: [] });
+  };
 
   return (
     <Styled.MainContainer maxWidth="sm" backgroundColor={note.color}>
@@ -103,9 +106,14 @@ export default function AddNewNote(props) {
         />
         <AddImage style={{ display: open ? "none" : "inline-flex" }} />
       </Styled.NoteContainer>
-      {(open && note.reminder.length>0) && <ReminderChip reminder={note.reminder[0]}/>}
+      {open && note.reminder.length > 0 && (
+        <ReminderChip
+          reminder={note.reminder[0]}
+          deleteReminder={removeReminder}
+        />
+      )}
       <Styled.OptionsContainer open={open}>
-        <Reminder addReminder={addReminder} reminder={note.reminder[0]}/>
+        <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
         <Collaborate />
         <AddColor addColor={addColor} color={note.color} />
         <AddImage />

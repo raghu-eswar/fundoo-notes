@@ -16,7 +16,8 @@ import {
   pinUnpinNotes,
   archiveNotes,
   trashNotes,
-  addUpdateReminderNotes
+  addUpdateReminderNotes,
+  removeReminderNotes,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -90,7 +91,13 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
-
+  const removeReminder = (reminder) => {
+    setNote({ ...note, reminder: [] });
+    let data = { noteIdList: [note.id] };
+    removeReminderNotes(data, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
   const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
 
   return (
@@ -125,9 +132,17 @@ export default function UpdateNote(props) {
             value={open && note.description}
           />
         </Styled.NoteContainer>
-        {(open && note.reminder.length > 0) && <ReminderChip reminder={note.reminder[0]} />}
+        {open && note.reminder.length > 0 && (
+          <ReminderChip
+            reminder={note.reminder[0]}
+            deleteReminder={removeReminder}
+          />
+        )}
         <Styled.OptionsContainer>
-          <Reminder addReminder={addReminder} reminder={open && note.reminder[0]}/>
+          <Reminder
+            addReminder={addReminder}
+            reminder={open && note.reminder[0]}
+          />
           <Collaborate />
           <AddColor
             addColor={addColor}

@@ -32,6 +32,7 @@ export default function ReminderChip(props) {
       icon={<AccessAlarmIcon />}
       label={lable}
       onDelete={props.deleteReminder}
+      style={{backgroundColor: 'rgba(0,0,0,0.08)'}}
     />
   );
 }
