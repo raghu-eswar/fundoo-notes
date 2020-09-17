@@ -1,4 +1,5 @@
 import React from "react";
+import { CompactPicker } from "react-color";
 import Menu from "@material-ui/core/Menu";
 import CardContent from "@material-ui/core/CardContent";
 import CreateIcon from "@material-ui/icons/Create";
@@ -11,6 +12,8 @@ import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import { SketchField, Tools } from "react-sketch";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import Typography from "@material-ui/core/Typography/Typography";
+import ColorizeIcon from "@material-ui/icons/Colorize";
+import ColorLensIcon from "@material-ui/icons/ColorLens";
 import Slider from "@material-ui/core/Slider";
 import Container from "@material-ui/core/Container";
 
@@ -32,7 +35,7 @@ class SketchBoard extends React.Component {
       expandTools: false,
       expandControls: false,
       expandColors: false,
-      expandBack: false,
+      expandBackgroundolors: false,
       text: "",
     };
   }
@@ -133,6 +136,55 @@ class SketchBoard extends React.Component {
                   </IconButton>
                 </div>
               </div>
+            </CardContent>
+          </Menu>
+          <IconButton
+            onClick={(e) =>
+              this.setState({ expandColors: !this.state.expandColors })
+            }
+          >
+            <ColorizeIcon />
+          </IconButton>
+          <Menu
+            open={this.state.expandColors}
+            onClose={() =>
+              this.setState({ expandColors: !this.state.expandColors })
+            }
+          >
+            <CardContent>
+              <label htmlFor="lineColor">Line</label>
+              <br />
+              <CompactPicker
+                id="lineColor"
+                color={this.state.lineColor}
+                onChange={(color) => this.setState({ lineColor: color.hex })}
+              />
+            </CardContent>
+          </Menu>
+          <IconButton
+            onClick={(e) =>
+              this.setState({
+                expandBackgroundolors: !this.state.expandBackgroundolors,
+              })
+            }
+          >
+            <ColorLensIcon />
+          </IconButton>
+          <Menu
+            open={this.state.expandBackgroundolors}
+            onClose={() =>
+              this.setState({
+                expandBackgroundolors: !this.state.expandBackgroundolors,
+              })
+            }
+          >
+            <CardContent>
+              <CompactPicker
+                color={this.state.backgroundColor}
+                onChange={(color) =>
+                  this.setState({ backgroundColor: color.hex })
+                }
+              />
             </CardContent>
           </Menu>
         </Toolbar>
