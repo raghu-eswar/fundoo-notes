@@ -6,6 +6,8 @@ import CreateIcon from "@material-ui/icons/Create";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import UndoIcon from "@material-ui/icons/Undo";
+import RedoIcon from "@material-ui/icons/Redo";
 import AddIcon from "@material-ui/icons/Add";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
@@ -35,7 +37,7 @@ class SketchBoard extends React.Component {
       expandTools: false,
       expandControls: false,
       expandColors: false,
-      expandBackgroundolors: false,
+      expandBackgroundColors: false,
       text: "",
     };
   }
@@ -44,6 +46,30 @@ class SketchBoard extends React.Component {
     this.setState({
       tool: event.target.value,
     });
+  };
+
+  undo = () => {
+    this.sketch.undo();
+    this.setState({
+      canUndo: this.sketch.canUndo(),
+      canRedo: this.sketch.canRedo(),
+    });
+  };
+
+  redo = () => {
+    this.sketch.redo();
+    this.setState({
+      canUndo: this.sketch.canUndo(),
+      canRedo: this.sketch.canRedo(),
+    });
+  };
+
+  onSketchChange = () => {
+    let prev = this.state.canUndo;
+    let now = this.sketch.canUndo();
+    if (prev !== now) {
+      this.setState({ canUndo: now });
+    }
   };
 
   addText = () => this.sketch.addText(this.state.text);
@@ -163,19 +189,15 @@ class SketchBoard extends React.Component {
           </Menu>
           <IconButton
             onClick={(e) =>
-              this.setState({
-                expandBackgroundolors: !this.state.expandBackgroundolors,
-              })
+              this.setState({ expandBackgroundColors: !this.state.expandBackgroundColors, })
             }
           >
             <ColorLensIcon />
           </IconButton>
           <Menu
-            open={this.state.expandBackgroundolors}
+            open={this.state.expandBackgroundColors}
             onClose={() =>
-              this.setState({
-                expandBackgroundolors: !this.state.expandBackgroundolors,
-              })
+              this.setState({ expandBackgroundColors: !this.state.expandBackgroundColors, })
             }
           >
             <CardContent>
@@ -187,6 +209,12 @@ class SketchBoard extends React.Component {
               />
             </CardContent>
           </Menu>
+          <IconButton disabled={!this.state.canUndo} onClick={this.undo}>
+            <UndoIcon />
+          </IconButton>
+          <IconButton disabled={!this.state.canRedo} onClick={this.redo}>
+            <RedoIcon />
+          </IconButton>
         </Toolbar>
         <SketchField
           ref={(c) => (this.sketch = c)}
@@ -196,6 +224,7 @@ class SketchBoard extends React.Component {
           width={this.state.sketchWidth}
           height={this.state.sketchHeight}
           value={this.state.drawings}
+          onChange={this.onSketchChange}
           tool={this.state.tool}
           style={{ border: "1px solid gray" }}
         />
