@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography/Typography";
 import ColorizeIcon from "@material-ui/icons/Colorize";
 import ColorLensIcon from "@material-ui/icons/ColorLens";
 import Slider from "@material-ui/core/Slider";
+import DoneAllIcon from "@material-ui/icons/DoneAll";
 import Container from "@material-ui/core/Container";
 
 class SketchBoard extends React.Component {
@@ -46,6 +47,12 @@ class SketchBoard extends React.Component {
     this.setState({
       tool: event.target.value,
     });
+  };
+
+  save = () => {
+    this.props.setDrawing(this.sketch.toJSON());
+    this.props.close();
+    this.setState({ drawings: this.sketch.toJSON() });
   };
 
   undo = () => {
@@ -189,7 +196,9 @@ class SketchBoard extends React.Component {
           </Menu>
           <IconButton
             onClick={(e) =>
-              this.setState({ expandBackgroundColors: !this.state.expandBackgroundColors, })
+              this.setState({
+                expandBackgroundColors: !this.state.expandBackgroundColors,
+              })
             }
           >
             <ColorLensIcon />
@@ -197,7 +206,9 @@ class SketchBoard extends React.Component {
           <Menu
             open={this.state.expandBackgroundColors}
             onClose={() =>
-              this.setState({ expandBackgroundColors: !this.state.expandBackgroundColors, })
+              this.setState({
+                expandBackgroundColors: !this.state.expandBackgroundColors,
+              })
             }
           >
             <CardContent>
@@ -214,6 +225,9 @@ class SketchBoard extends React.Component {
           </IconButton>
           <IconButton disabled={!this.state.canRedo} onClick={this.redo}>
             <RedoIcon />
+          </IconButton>
+          <IconButton onClick={this.save}>
+            <DoneAllIcon />
           </IconButton>
         </Toolbar>
         <SketchField
