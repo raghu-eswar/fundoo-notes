@@ -8,6 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import { SketchField, Tools } from "react-sketch";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import Typography from "@material-ui/core/Typography/Typography";
+import Slider from "@material-ui/core/Slider";
 import Container from "@material-ui/core/Container";
 
 class SketchBoard extends React.Component {
@@ -95,8 +96,16 @@ class SketchBoard extends React.Component {
                   </TextField>
                 </div>
               </div>
+              <br />
+              <br />
+              <Typography>Line Weight</Typography>
+              <Slider
+                value={this.state.lineWidth}
+                onChange={(e, v) => this.setState({ lineWidth: v })}
+              />
+              <br />
             </CardContent>
-          </Menu>          
+          </Menu>
         </Toolbar>
         <SketchField
           ref={(c) => (this.sketch = c)}
