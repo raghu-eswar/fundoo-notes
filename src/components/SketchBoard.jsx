@@ -5,6 +5,8 @@ import CreateIcon from "@material-ui/icons/Create";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import ZoomInIcon from "@material-ui/icons/ZoomIn";
+import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import { SketchField, Tools } from "react-sketch";
 import Toolbar from "@material-ui/core/Toolbar/Toolbar";
 import Typography from "@material-ui/core/Typography/Typography";
@@ -104,6 +106,15 @@ class SketchBoard extends React.Component {
                 onChange={(e, v) => this.setState({ lineWidth: v })}
               />
               <br />
+              <label htmlFor="zoom">Zoom</label>
+              <div>
+                <IconButton onClick={(e) => this.sketch.zoom(1.25)}>
+                  <ZoomInIcon />
+                </IconButton>
+                <IconButton onClick={(e) => this.sketch.zoom(0.8)}>
+                  <ZoomOutIcon />
+                </IconButton>
+              </div>
             </CardContent>
           </Menu>
         </Toolbar>
