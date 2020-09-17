@@ -1,5 +1,13 @@
 import React from "react";
+import Menu from "@material-ui/core/Menu";
+import CardContent from "@material-ui/core/CardContent";
+import CreateIcon from "@material-ui/icons/Create";
+import IconButton from "@material-ui/core/IconButton";
+import MenuItem from "@material-ui/core/MenuItem";
+import TextField from "@material-ui/core/TextField";
 import { SketchField, Tools } from "react-sketch";
+import Toolbar from "@material-ui/core/Toolbar/Toolbar";
+import Typography from "@material-ui/core/Typography/Typography";
 import Container from "@material-ui/core/Container";
 
 class SketchBoard extends React.Component {
@@ -25,6 +33,12 @@ class SketchBoard extends React.Component {
     };
   }
 
+  selectTool = (event) => {
+    this.setState({
+      tool: event.target.value,
+    });
+  };
+
   render = () => {
     return (
       <Container
@@ -36,6 +50,54 @@ class SketchBoard extends React.Component {
           marginTop: 50,
         }}
       >
+        <Toolbar>
+          <Typography variant="h6" color="inherit" style={{ flexGrow: 1 }}>
+            Sketch board
+          </Typography>
+          <IconButton
+            onClick={(e) =>
+              this.setState({ expandTools: !this.state.expandTools })
+            }
+          >
+            <CreateIcon />
+          </IconButton>
+          <Menu
+            open={this.state.expandTools}
+            onClose={() =>
+              this.setState({ expandTools: !this.state.expandTools })
+            }
+          >
+            <CardContent>
+              <div>
+                <div>
+                  <TextField
+                    select={true}
+                    label="Tools"
+                    value={this.state.tool}
+                    onChange={this.selectTool}
+                    helperText="Please select Tool"
+                  >
+                    <MenuItem value={Tools.Select} key="Select">
+                      Select
+                    </MenuItem>
+                    <MenuItem value={Tools.Pencil} key="Pencil">
+                      Pencil
+                    </MenuItem>
+                    <MenuItem value={Tools.Line} key="Line">
+                      Line
+                    </MenuItem>
+                    <MenuItem value={Tools.Rectangle} key="Rectangle">
+                      Rectangle
+                    </MenuItem>
+                    <MenuItem value={Tools.Circle} key="Circle">
+                      Circle
+                    </MenuItem>
+                  </TextField>
+                </div>
+              </div>
+            </CardContent>
+          </Menu>          
+        </Toolbar>
         <SketchField
           ref={(c) => (this.sketch = c)}
           lineColor={this.state.lineColor}
