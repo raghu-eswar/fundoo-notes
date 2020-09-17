@@ -8,6 +8,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
 import UndoIcon from "@material-ui/icons/Undo";
 import RedoIcon from "@material-ui/icons/Redo";
+import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
@@ -68,6 +69,18 @@ class SketchBoard extends React.Component {
     this.setState({
       canUndo: this.sketch.canUndo(),
       canRedo: this.sketch.canRedo(),
+    });
+  };
+
+  clear = () => {
+    this.sketch.clear();
+    this.sketch.setBackgroundFromDataUrl("");
+    this.setState({
+      controlledValue: null,
+      backgroundColor: "transparent",
+      canUndo: this.sketch.canUndo(),
+      canRedo: this.sketch.canRedo(),
+      drawings: {},
     });
   };
 
@@ -228,6 +241,9 @@ class SketchBoard extends React.Component {
           </IconButton>
           <IconButton onClick={this.save}>
             <DoneAllIcon />
+          </IconButton>
+          <IconButton onClick={this.clear}>
+            <DeleteIcon />
           </IconButton>
         </Toolbar>
         <SketchField
