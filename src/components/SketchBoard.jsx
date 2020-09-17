@@ -5,6 +5,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import TextField from "@material-ui/core/TextField";
+import AddIcon from "@material-ui/icons/Add";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import { SketchField, Tools } from "react-sketch";
@@ -41,6 +42,8 @@ class SketchBoard extends React.Component {
       tool: event.target.value,
     });
   };
+
+  addText = () => this.sketch.addText(this.state.text);
 
   render = () => {
     return (
@@ -114,6 +117,21 @@ class SketchBoard extends React.Component {
                 <IconButton onClick={(e) => this.sketch.zoom(0.8)}>
                   <ZoomOutIcon />
                 </IconButton>
+              </div>
+              <div>
+                <div>
+                  <TextField
+                    label="Text"
+                    helperText="Add text to Sketch"
+                    onChange={(e) => this.setState({ text: e.target.value })}
+                    value={this.state.text}
+                  />
+                </div>
+                <div>
+                  <IconButton color="primary" onClick={this.addText}>
+                    <AddIcon />
+                  </IconButton>
+                </div>
               </div>
             </CardContent>
           </Menu>
