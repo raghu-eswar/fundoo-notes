@@ -27,6 +27,13 @@ export const CloseButton = styled.div`
   align-items: center;
   justify-content: flex-end;
 `;
+export const SketchBoardContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+`;
 export const StyledInput = styled(TextField)`
   margin: 6px 0;
   .MuiInputBase-inputMultiline {
