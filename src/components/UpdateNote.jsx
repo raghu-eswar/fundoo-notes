@@ -9,6 +9,9 @@ import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import Modal from "@material-ui/core/Modal";
 import ReminderChip from "./ReminderChip";
+import SketchTool from "./SketchTool";
+import SketchBoard from "./SketchBoard.jsx";
+import DisplaySketchBoard from "./DisplaySketchBoard";
 import * as Styled from "../styles/updateNote.styled";
 import {
   updateNotes,
@@ -24,6 +27,7 @@ export default function UpdateNote(props) {
   const [open, setOpen] = React.useState(props.open);
   const [note, setNote] = React.useState(props.note);
   const [update, setUpdate] = React.useState(false);
+  const [openSketchBoard, setOpenSketchBoard] = React.useState(false);
 
   React.useEffect(() => {
     setOpen(props.open);
@@ -45,12 +49,17 @@ export default function UpdateNote(props) {
   const saveNote = () => {
     if (
       props.note.title !== note.title ||
-      props.note.description !== note.description
+      props.note.description !== note.description ||
+      props.note.drawing !== note.drawing
     ) {
       let formData = new FormData();
       formData.append("noteId", note.id);
       formData.append("title", note.title);
-      formData.append("description", note.description);
+      if (note.drawing.objects.length > 0) {
+        let description =
+          note.description + " $SKETCH" + JSON.stringify(note.drawing);
+        formData.append("description", description);
+      } else formData.append("description", note.description);
       updateNotes(formData, props.token).then((response) => {
         if (response.status === 200) {
           props.closeNote();
@@ -100,66 +109,98 @@ export default function UpdateNote(props) {
   };
   const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
 
+  const setDrawing = (drawing) => {
+    setNote({ ...note, drawing: drawing });
+  };
+
   return (
-    <Modal
-      open={open}
-      style={{ margin: "12rem auto", border: "none" }}
-      onClose={saveNote}
-    >
-      <Styled.MainContainer maxWidth="sm" backgroundColor={open && note.color}>
-        <Styled.TitleContainer>
-          <Styled.StyledInput
-            placeholder="Title"
-            fullWidth
-            multiline
-            fontSize="1.2rem"
-            onChange={(event) =>
-              setNote({ ...note, title: event.target.value })
-            }
-            value={open && note.title}
-          />
-          <PinNote isPined={open && note.isPined} togglePin={togglePin} />
-        </Styled.TitleContainer>
-        <Styled.NoteContainer>
-          <Styled.StyledInput
-            placeholder="Take a note..."
-            fullWidth
-            multiline
-            onClick={() => setOpen(true)}
-            onChange={(event) =>
-              setNote({ ...note, description: event.target.value })
-            }
-            value={open && note.description}
-          />
-        </Styled.NoteContainer>
-        {open && note.reminder.length > 0 && (
-          <ReminderChip
-            reminder={note.reminder[0]}
-            deleteReminder={removeReminder}
-          />
-        )}
-        <Styled.OptionsContainer>
-          <Reminder
-            addReminder={addReminder}
-            reminder={open && note.reminder[0]}
-          />
-          <Collaborate />
-          <AddColor
-            addColor={addColor}
-            onPickerClose={saveColor}
-            color={open && note.color}
-          />
-          <AddImage />
-          <ArchiveNote
-            isArchived={open && note.isArchived}
-            toggleArchive={toggleArchive}
-          />
-          <MoreNoteOptions menuItems={activeNoteOptions} />
-          <Styled.CloseButton>
-            <Button onClick={saveNote}>Close</Button>
-          </Styled.CloseButton>
-        </Styled.OptionsContainer>
-      </Styled.MainContainer>
-    </Modal>
+    <>
+      <Modal
+        open={open}
+        style={{
+          margin:
+            open && note.drawing.objects.length > 0 ? "auto" : "12rem auto",
+          border: "none",
+        }}
+        onClose={saveNote}
+      >
+        <Styled.MainContainer
+          maxWidth="sm"
+          backgroundColor={open && note.color}
+        >
+          {open && note.drawing.objects.length > 0 && (
+            <Styled.SketchBoardContainer>
+              <DisplaySketchBoard
+                width={304}
+                height={284}
+                drawing={note.drawing}
+                zoom={0.55}
+                openSketchBoard={() => setOpenSketchBoard(true)}
+              />
+            </Styled.SketchBoardContainer>
+          )}
+          <Styled.TitleContainer>
+            <Styled.StyledInput
+              placeholder="Title"
+              fullWidth
+              multiline
+              fontSize="1.2rem"
+              onChange={(event) =>
+                setNote({ ...note, title: event.target.value })
+              }
+              value={open && note.title}
+            />
+            <PinNote isPined={open && note.isPined} togglePin={togglePin} />
+          </Styled.TitleContainer>
+          <Styled.NoteContainer>
+            <Styled.StyledInput
+              placeholder="Take a note..."
+              fullWidth
+              multiline
+              onClick={() => setOpen(true)}
+              onChange={(event) =>
+                setNote({ ...note, description: event.target.value })
+              }
+              value={open && note.description}
+            />
+          </Styled.NoteContainer>
+          {open && note.reminder.length > 0 && (
+            <ReminderChip
+              reminder={note.reminder[0]}
+              deleteReminder={removeReminder}
+            />
+          )}
+          <Styled.OptionsContainer>
+            <Reminder
+              addReminder={addReminder}
+              reminder={open && note.reminder[0]}
+            />
+            <Collaborate />
+            <AddColor
+              addColor={addColor}
+              onPickerClose={saveColor}
+              color={open && note.color}
+            />
+            <AddImage />
+            <ArchiveNote
+              isArchived={open && note.isArchived}
+              toggleArchive={toggleArchive}
+            />
+            <SketchTool openSketchBoard={() => setOpenSketchBoard(true)} />
+            <MoreNoteOptions menuItems={activeNoteOptions} />
+            <Styled.CloseButton>
+              <Button onClick={saveNote}>Close</Button>
+            </Styled.CloseButton>
+          </Styled.OptionsContainer>
+        </Styled.MainContainer>
+      </Modal>
+      <Modal open={openSketchBoard} onClose={() => setOpenSketchBoard(false)}>
+        <SketchBoard
+          drawing={open && note.drawing}
+          setDrawing={setDrawing}
+          close={() => setOpenSketchBoard(false)}
+        />
+      </Modal>
+    </>
   );
 }
