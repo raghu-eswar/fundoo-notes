@@ -9,6 +9,7 @@ import AddImage from "./AddImage";
 import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import ReminderChip from "./ReminderChip";
+import DisplaySketchBoard from "./DisplaySketchBoard";
 import * as Styled from "../styles/note.styled";
 import {
   changeNoteColor,
@@ -82,6 +83,17 @@ export default function Note(props) {
       backgroundColor={note.color}
     >
       <CardContent>
+        {note.drawing.objects.length > 0 && (
+          <Styled.SketchBoardContainer>
+            <DisplaySketchBoard
+              width={206}
+              height={188}
+              drawing={note.drawing}
+              zoom={0.37}
+              openSketchBoard={() => props.openNote(note)}
+            />
+          </Styled.SketchBoardContainer>
+        )}
         <Styled.TitleContainer>
           <Typography
             variant="h6"

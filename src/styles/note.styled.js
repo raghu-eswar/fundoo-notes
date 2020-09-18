@@ -31,3 +31,13 @@ export const DescriptionContainer = styled.div`
   align-items: center;
   margin: 10px 0;
 `;
+export const SketchBoardContainer = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid red;
+  .MuiContainer-root {
+    padding: 0;
+  }
+`;
