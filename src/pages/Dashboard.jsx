@@ -38,7 +38,21 @@ class Dashboard extends React.Component {
   updateNotes = (token) => {
     getNotesList(token)
       .then((response) => {
-        this.setState({ notes: response.data.data.data });
+        let notes = response.data.data.data;
+        notes.forEach((note) => {
+          let descriptionArray = note.description.split("$SKETCH");
+          if (descriptionArray.length > 1) {
+            let drawing = descriptionArray.pop();
+            let description = descriptionArray.join("$SKETCH");
+            note.description = description;
+            note.drawing = JSON.parse(drawing);
+          } else {
+            let description = descriptionArray.join("$SKETCH");
+            note.description = description;
+            note.drawing = { backgroundColor: "transparent", objects: [] };
+          }
+        });
+        this.setState({ notes: notes });
       })
       .catch((error) => console.log(error));
   };
@@ -87,7 +101,9 @@ class Dashboard extends React.Component {
           );
           break;
         case 3:
-          displayNotesList = this.state.notes.filter((note) => note.isArchived && !note.isDeleted);
+          displayNotesList = this.state.notes.filter(
+            (note) => note.isArchived && !note.isDeleted
+          );
           break;
         case 4:
           displayNotesList = this.state.notes.filter((note) => note.isDeleted);
