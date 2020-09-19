@@ -66,6 +66,7 @@ export default function AppHeader(props) {
               imageUrl={props.imageUrl}
               firstLetter={props.firstLetter}
               user={props.user}
+              upDateProfileImage={props.upDateProfileImage}
             />
           </Popover>
         </Styled.HeaderOptions>

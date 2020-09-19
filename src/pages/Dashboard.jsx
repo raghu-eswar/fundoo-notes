@@ -86,7 +86,11 @@ class Dashboard extends React.Component {
     if (this.state.selectedMenuIndex !== selectedMenuIndex)
       this.setState({ selectedMenuIndex: selectedMenuIndex });
   };
-
+  upDateProfileImage = (imageUrl) => {
+    let user = this.state.user;
+    user.imageUrl = imageUrl;
+    this.setState({ user: user });
+  };
   render() {
     let displayNotesList = [];
     if (this.state.notes.length > 0) {
@@ -120,9 +124,12 @@ class Dashboard extends React.Component {
           isGrid={this.state.isGrid}
           changeLayout={() => this.setState({ isGrid: !this.state.isGrid })}
           user={this.state.user}
+          upDateProfileImage={this.upDateProfileImage}
           imageUrl={
             this.state.user
-              ? process.env.API_BASE_URL + this.state.user.imageUrl
+              ? process.env.REACT_APP_API_BASE_URL +
+                "/" +
+                this.state.user.imageUrl
               : ""
           }
           firstLetter={
