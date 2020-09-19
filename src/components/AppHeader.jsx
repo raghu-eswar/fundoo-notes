@@ -10,7 +10,7 @@ import * as Styled from "../styles/appHeader.styled";
 
 export default function AppHeader(props) {
   return (
-    <AppBar position="sticky" style={{ zIndex: 1 }}>
+    <AppBar position="fixed" style={{ zIndex: 2 }}>
       <Toolbar>
         <IconButton
           edge="start"

@@ -2,10 +2,14 @@ import styled from "styled-components";
 import Drawer from "@material-ui/core/Drawer";
 
 export const SideDrawNav = styled(Drawer)`
-  position: relative;
+  position: fixed;
   white-space: nowrap;
+  z-index: 1;
+  height: 100vh;
   width: ${(props) => (props.isOpen ? "240px" : "60px")};
-
+  @media (max-width: 500px) {
+    width: ${(props) => (props.isOpen ? "240px" : "0px")};
+  }
   .MuiDrawer-paper {
     position: relative;
     overflow-x: hidden;
