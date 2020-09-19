@@ -98,7 +98,7 @@ export default function Note(props) {
         )}
         <Styled.TitleContainer>
           <Typography
-            variant="h6"
+            variant="subtitle1"
             align="left"
             style={{ flex: 1 }}
             onClick={() => props.openNote(note)}
@@ -108,7 +108,7 @@ export default function Note(props) {
           <PinNote isPined={note.isPined} togglePin={togglePin} />
         </Styled.TitleContainer>
         <Typography
-          variant="subtitle1"
+          variant="subtitle2"
           gutterBottom
           align="left"
           style={{ flex: 1 }}

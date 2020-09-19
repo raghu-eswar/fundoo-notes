@@ -5,6 +5,7 @@ export const NoteContainer = styled(Card)`
   width: ${(props) => props.isGrid? '15rem': window.innerWidth/2+'px'};
   background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
+  border-radius: 8px;
   .MuiCardContent-root {
     padding: 0 16px;
   }
@@ -23,13 +24,13 @@ export const TitleContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin: 10px 0;
+  margin-top: 5px;
 `;
 
 export const DescriptionContainer = styled.div`
   display: flex;
   align-items: center;
-  margin: 10px 0;
+  margin-bottom: 4px;
 `;
 export const SketchBoardContainer = styled.div`
   width: 100%;
