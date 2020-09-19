@@ -81,6 +81,8 @@ export default function Note(props) {
     <Styled.NoteContainer
       className={note.isPined ? "pinedNote" : "note"}
       backgroundColor={note.color}
+      raised
+      isGrid={props.isGrid}
     >
       <CardContent>
         {note.drawing.objects.length > 0 && (

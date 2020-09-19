@@ -18,6 +18,7 @@ class Dashboard extends React.Component {
       refresh: false,
       noteToUpdate: null,
       selectedMenuIndex: 0,
+      isGrid: true,
     };
   }
 
@@ -60,12 +61,12 @@ class Dashboard extends React.Component {
     let unPinedGrid = new Minigrid({
       container: ".notesContainer",
       item: ".note",
-      gutter: 15,
+      gutter: 25,
     });
     let pinedGrid = new Minigrid({
       container: ".pinedNotesContainer",
       item: ".pinedNote",
-      gutter: 15,
+      gutter: 25,
     });
     unPinedGrid.mount();
     pinedGrid.mount();
@@ -116,7 +117,8 @@ class Dashboard extends React.Component {
       <>
         <AppHeader
           handleDrawerOpen={this.handleDrawerOpen}
-          isGrid
+          isGrid={this.state.isGrid}
+          changeLayout={()=>this.setState({isGrid: !this.state.isGrid})}
           imageUrl={
             this.state.user
               ? process.env.API_BASE_URL + this.state.user.imageUrl
@@ -154,6 +156,7 @@ class Dashboard extends React.Component {
                       openNote={this.openNote}
                       token={this.state.user ? this.state.user.token : ""}
                       updateNotes={this.updateNotes}
+                      isGrid={this.state.isGrid}
                     />
                   ))}
               </div>
@@ -173,6 +176,7 @@ class Dashboard extends React.Component {
                       openNote={this.openNote}
                       token={this.state.user ? this.state.user.token : ""}
                       updateNotes={this.updateNotes}
+                      isGrid={this.state.isGrid}
                     />
                   ))}
               </div>

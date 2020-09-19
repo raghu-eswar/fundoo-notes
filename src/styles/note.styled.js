@@ -2,7 +2,7 @@ import styled from "styled-components";
 import Card from "@material-ui/core/Card";
 
 export const NoteContainer = styled(Card)`
-  width: 15rem;
+  width: ${(props) => props.isGrid? '15rem': window.innerWidth/2+'px'};
   background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
   .MuiCardContent-root {
@@ -36,7 +36,7 @@ export const SketchBoardContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid red;
+  margin-top: 15px;
   .MuiContainer-root {
     padding: 0;
   }

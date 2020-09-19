@@ -26,7 +26,7 @@ export default function AppHeader(props) {
           <IconButton>
             <Styled.StyledSearchIcon />
           </IconButton>
-          <Styled.ReponsiveIconButton>
+          <Styled.ReponsiveIconButton onClick={props.changeLayout}>
             {props.isGrid ? (
               <ViewStreamRoundedIcon />
             ) : (
