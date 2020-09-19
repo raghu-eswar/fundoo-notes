@@ -62,6 +62,7 @@ export default function AddNewNote(props) {
           if (response.status === 200) {
             setOpen(false);
             setNote(reset());
+            setDrawing({backgroundColor: "transparent", objects: []})
             props.updateNotes(props.token);
           }
         })
@@ -69,6 +70,7 @@ export default function AddNewNote(props) {
     } else {
       setOpen(false);
       setNote(reset());
+      setDrawing({backgroundColor: "transparent", objects: []})
     }
   };
 
