@@ -22,6 +22,7 @@ import {
 
 export default function Note(props) {
   const [note, setNote] = React.useState(props.note);
+  const [hover, setHover] = React.useState(false);
 
   React.useEffect(() => {
     setNote(props.note);
@@ -81,8 +82,10 @@ export default function Note(props) {
     <Styled.NoteContainer
       className={note.isPined ? "pinedNote" : "note"}
       backgroundColor={note.color}
-      raised
+      raised={hover}
       isGrid={props.isGrid}
+      onMouseOver={()=> setHover(true)}
+      onMouseOut={()=> setHover(false)}
     >
       <CardContent>
         {note.drawing.objects.length > 0 && (
