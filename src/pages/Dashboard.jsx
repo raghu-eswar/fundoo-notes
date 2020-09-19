@@ -118,7 +118,8 @@ class Dashboard extends React.Component {
         <AppHeader
           handleDrawerOpen={this.handleDrawerOpen}
           isGrid={this.state.isGrid}
-          changeLayout={()=>this.setState({isGrid: !this.state.isGrid})}
+          changeLayout={() => this.setState({ isGrid: !this.state.isGrid })}
+          user={this.state.user}
           imageUrl={
             this.state.user
               ? process.env.API_BASE_URL + this.state.user.imageUrl
