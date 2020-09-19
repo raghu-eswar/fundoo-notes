@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const MainContainer = styled.div`
   display: flex;
   position: relative;
-  @media (min-width: 1000px) {
+  @media (min-width: 820px) {
     top: 7vw;
   }
   @media (min-width: 1100px) {
