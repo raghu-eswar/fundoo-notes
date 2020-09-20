@@ -53,3 +53,8 @@ export const noteLabels = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const getNoteLabelList = (token)=> {
+    return axios.get(process.env.REACT_APP_API_BASE_URL + notesApiConstants.getNoteLabelList, {
+        headers: {Authorization: token,}
+    })
+}
