@@ -6,6 +6,7 @@ import AddNewNote from "../components/AddNewNote";
 import SideNavBar from "../components/SideNavBar";
 import UpdateNote from "../components/UpdateNote";
 import Note from "../components/Note";
+import EditLabels from "../components/EditLabels";
 import * as Styled from "../styles/dashboard.styled";
 import { getNotesList } from "../services/notesServices";
 
@@ -19,6 +20,7 @@ class Dashboard extends React.Component {
       noteToUpdate: null,
       selectedMenuIndex: 0,
       isGrid: true,
+      showLabels: false,
     };
   }
 
@@ -83,6 +85,10 @@ class Dashboard extends React.Component {
     this.setState({ noteToUpdate: null });
   };
   selectMenuOption = (selectedMenuIndex) => {
+    if (selectedMenuIndex === 2) {
+      this.setState({ showLabels: true });
+      return;
+    }
     if (this.state.selectedMenuIndex !== selectedMenuIndex)
       this.setState({ selectedMenuIndex: selectedMenuIndex });
   };
@@ -197,6 +203,12 @@ class Dashboard extends React.Component {
           token={this.state.user ? this.state.user.token : ""}
           closeNote={this.closeNote}
           updateNotes={this.updateNotes}
+        />
+        <EditLabels
+          userId={this.state.user && this.state.user.userId}
+          token={this.state.user && this.state.user.token}
+          showLabels={this.state.showLabels}
+          hideLabels={() => this.setState({ showLabels: false })}
         />
       </>
     );
