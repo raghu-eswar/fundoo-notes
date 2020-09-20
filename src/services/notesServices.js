@@ -48,3 +48,8 @@ export const removeReminderNotes = (data, token)=> {
         headers: {Authorization: token,}
     })
 }
+export const noteLabels = (data, token)=> {
+    return axios.post(process.env.REACT_APP_API_BASE_URL + notesApiConstants.noteLabels, data, {
+        headers: {Authorization: token,}
+    })
+}
