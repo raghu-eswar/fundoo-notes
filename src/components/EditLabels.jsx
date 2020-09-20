@@ -8,6 +8,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import * as Styled from "../styles/editLabels.styled";
+import { noteLabels } from "../services/notesServices";
 
 export default function EditLabels(props) {
   const [focus, setFocus] = React.useState(true);
@@ -18,6 +19,15 @@ export default function EditLabels(props) {
     if (focus) setNewLable("");
     if (!focus) input.current.focus();
     setFocus(!focus);
+  };
+
+  const addLabel = () => {
+    if (newLable) {
+      let data = { isDeleted: false, label: newLable, userId: props.userId };
+      noteLabels(data, props.token)
+        .then((response) => console.log(response))
+        .catch((error) => console.log(error));
+    }
   };
 
   return (
@@ -37,7 +47,9 @@ export default function EditLabels(props) {
             value={newLable}
             onChange={(event) => setNewLable(event.target.value)}
           />
-          <IconButton disabled={!focus}>{focus && <DoneIcon />}</IconButton>
+          <IconButton disabled={!focus} onClick={addLabel}>
+            {focus && <DoneIcon />}
+          </IconButton>
         </Styled.LableContainer>
         <Divider />
         <Styled.ButtonWraper>
