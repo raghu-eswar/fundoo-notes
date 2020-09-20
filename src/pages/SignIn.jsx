@@ -76,6 +76,7 @@ class SignIn extends React.Component {
             lastName: response.data.lastName,
             email: response.data.email,
             imageUrl: response.data.imageUrl,
+            userId: response.data.userId,
           };
           localStorage.setItem("user", JSON.stringify(user));
           this.props.history.push("home");
