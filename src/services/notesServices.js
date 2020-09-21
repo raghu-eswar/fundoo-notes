@@ -108,7 +108,19 @@ export const updateNoteLabel = (labelId, label, token) => {
       "/" +
       labelId +
       notesApiConstants.updateNoteLabel,
-      label,
+    label,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};
+export const deleteNoteLabel = (labelId, token) => {
+  return axios.delete(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.noteLabels +
+      "/" +
+      labelId +
+      notesApiConstants.deleteNoteLabel,
     {
       headers: { Authorization: token },
     }
