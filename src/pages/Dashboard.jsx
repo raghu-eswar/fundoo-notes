@@ -8,7 +8,7 @@ import UpdateNote from "../components/UpdateNote";
 import Note from "../components/Note";
 import EditLabels from "../components/EditLabels";
 import * as Styled from "../styles/dashboard.styled";
-import { getNotesList } from "../services/notesServices";
+import { getNotesList, getNoteLabelList } from "../services/notesServices";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -21,6 +21,7 @@ class Dashboard extends React.Component {
       selectedMenuIndex: 0,
       isGrid: true,
       showLabels: false,
+      labels: [],
     };
   }
 
@@ -29,6 +30,7 @@ class Dashboard extends React.Component {
     let user = JSON.parse(localStorage.getItem("user"));
     this.updateNotes(user.token);
     this.setState({ user: user });
+    this.updateLabels(user.token);
   }
   componentDidUpdate() {
     this.fixLayOut();
@@ -38,6 +40,16 @@ class Dashboard extends React.Component {
     if (this.pinedGrid.children.length <= 0)
       this.pinedGrid.style.height = "0px";
   }
+
+  updateLabels = (token) => {
+    getNoteLabelList(token)
+      .then((response) => {
+        if (response.data.data.success)
+          this.setState({ labels: response.data.data.details });
+      })
+      .catch((error) => console.log(error));
+  };
+
   updateNotes = (token) => {
     getNotesList(token)
       .then((response) => {
@@ -147,6 +159,7 @@ class Dashboard extends React.Component {
             open={this.state.openMenu}
             selectedMenuIndex={this.state.selectedMenuIndex}
             selectMenuOption={this.selectMenuOption}
+            labels={this.state.labels}
           />
           <div style={{ width: "100%" }}>
             {(this.state.selectedMenuIndex === 0 ||

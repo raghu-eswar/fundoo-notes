@@ -13,6 +13,7 @@ export default function SideNavBar(props) {
         <MenuListItems
           selectedMenuIndex={props.selectedMenuIndex}
           selectMenuOption={props.selectMenuOption}
+          labels={props.labels}
         />
       </List>
       <Divider />

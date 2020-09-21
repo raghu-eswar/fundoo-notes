@@ -7,6 +7,7 @@ export const SideDrawNav = styled(Drawer)`
   z-index: 1;
   height: 100vh;
   width: ${(props) => (props.isOpen ? "240px" : "60px")};
+  padding-bottom: 65px;
   @media (max-width: 500px) {
     width: ${(props) => (props.isOpen ? "240px" : "0px")};
   }
@@ -24,5 +25,20 @@ export const SideDrawNav = styled(Drawer)`
   }
   .Mui-selected {
     background-color: rgb(240, 230, 140);
+  }
+  .MuiDrawer-paper::-webkit-scrollbar {
+    width: 0.5em;
+  }
+
+  .MuiDrawer-paper::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 3px;
+    visibility: hidden;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.2);
+      visibility: visible;
+    }
   }
 `;
