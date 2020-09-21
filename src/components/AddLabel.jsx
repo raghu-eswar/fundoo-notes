@@ -34,6 +34,7 @@ export default function EditLabels(props) {
         placeholder="Create new label"
         value={newLable}
         onChange={(event) => setNewLable(event.target.value)}
+        autoFocus
       />
       <IconButton disabled={!focus} onClick={addLabel}>
         {focus && <DoneIcon />}
