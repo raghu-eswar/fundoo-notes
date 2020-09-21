@@ -101,3 +101,16 @@ export const getNoteLabelList = (token) => {
     }
   );
 };
+export const updateNoteLabel = (labelId, label, token) => {
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.noteLabels +
+      "/" +
+      labelId +
+      notesApiConstants.updateNoteLabel,
+      label,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};

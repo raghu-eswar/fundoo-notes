@@ -10,4 +10,5 @@ export const notesApiConstants = {
     removeReminderNotes: '/api/notes/removeReminderNotes',
     noteLabels: '/api/noteLabels',
     getNoteLabelList: '/api/noteLabels/getNoteLabelList',
+    updateNoteLabel: '/updateNoteLabel',
 }
