@@ -6,12 +6,24 @@ import Button from "@material-ui/core/Button";
 import AddLabel from "./AddLabel";
 import UpdateLabels from "./UpdateLabel";
 import * as Styled from "../styles/editLabels.styled";
-import { noteLabels } from "../services/notesServices";
+import { noteLabels, updateNoteLabel } from "../services/notesServices";
 
 export default function EditLabels(props) {
+  
   const addNewLabel = (label) => {
     let data = { isDeleted: false, label: label, userId: props.userId };
     noteLabels(data, props.token)
+      .then((response) => {
+        if (response.status === 200) {
+          props.updateLabels(props.token);
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  
+  const updateLabel = (label) => {
+    let data = { label: label.label, };
+    updateNoteLabel(label.id, data, props.token)
       .then((response) => {
         if (response.status === 200) {
           props.updateLabels(props.token);
@@ -28,7 +40,7 @@ export default function EditLabels(props) {
         </Typography>
         <AddLabel addNewLabel={addNewLabel} />
         {props.labels.map((label) => (
-          <UpdateLabels label={label} />
+          <UpdateLabels label={label} updateLabel={updateLabel}/>
         ))}
         <Divider />
         <Styled.ButtonWraper>

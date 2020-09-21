@@ -18,6 +18,13 @@ export default function UpdateLabels(props) {
     }
   };
 
+  const updateLabel = () => {
+    if (label.label && label.label !== props.label.label) {
+      props.updateLabel(label);
+    }
+    setFocus(false);
+  };
+
   return (
     <Styled.LableContainer>
       <IconButton
@@ -28,7 +35,6 @@ export default function UpdateLabels(props) {
       </IconButton>
       <Styled.StyledTextField
         onFocus={() => setFocus(true)}
-        onBlur={() => setFocus(false)}
         ref={input}
         value={label.label}
         onChange={(event) => setLabel({ ...label, label: event.target.value })}
@@ -39,7 +45,7 @@ export default function UpdateLabels(props) {
         </IconButton>
       )}
       {focus && (
-        <IconButton>
+        <IconButton onClick={updateLabel}>
           <DoneIcon />
         </IconButton>
       )}
