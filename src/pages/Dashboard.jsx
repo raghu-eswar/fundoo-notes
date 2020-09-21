@@ -7,6 +7,7 @@ import SideNavBar from "../components/SideNavBar";
 import UpdateNote from "../components/UpdateNote";
 import Note from "../components/Note";
 import EditLabels from "../components/EditLabels";
+import Loader from '../components/Loader';
 import * as Styled from "../styles/dashboard.styled";
 import { getNotesList, getNoteLabelList } from "../services/notesServices";
 
@@ -22,6 +23,7 @@ class Dashboard extends React.Component {
       isGrid: true,
       showLabels: false,
       labels: [],
+      isLoading: false,
     };
   }
 
@@ -51,6 +53,7 @@ class Dashboard extends React.Component {
   };
 
   updateNotes = (token) => {
+    this.setState({isLoading: true})
     getNotesList(token)
       .then((response) => {
         let notes = response.data.data.data;
@@ -67,7 +70,7 @@ class Dashboard extends React.Component {
             note.drawing = { backgroundColor: "transparent", objects: [] };
           }
         });
-        this.setState({ notes: notes });
+    this.setState({ notes: notes, isLoading: false });
       })
       .catch((error) => console.log(error));
   };
@@ -225,6 +228,7 @@ class Dashboard extends React.Component {
           updateLabels={this.updateLabels}
           labels={this.state.labels}
         />
+        <Loader open={this.state.isLoading} />
       </>
     );
   }
