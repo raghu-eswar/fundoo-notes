@@ -30,6 +30,7 @@ export default function UpdateLabels(props) {
       <IconButton
         onMouseOver={() => setFocus(true)}
         onMouseOut={() => setFocus(false)}
+        onClick={()=> props.deleteLabel(label.id)}
       >
         {focus ? <DeleteIcon /> : <LabelIcon />}
       </IconButton>
