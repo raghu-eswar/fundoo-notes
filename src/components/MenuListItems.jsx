@@ -7,6 +7,7 @@ import AddAlertSharpIcon from "@material-ui/icons/AddAlertSharp";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import DeleteSweepRoundedIcon from "@material-ui/icons/DeleteSweepRounded";
+import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
 
 export default function MenuListItems(props) {
   return (
@@ -31,6 +32,14 @@ export default function MenuListItems(props) {
         </ListItemIcon>
         <ListItemText primary="Reminders" />
       </ListItem>
+      {props.labels.map((label) => (
+        <ListItem button>
+          <ListItemIcon>
+            <LabelOutlinedIcon />
+          </ListItemIcon>
+          <ListItemText primary={label.label} />
+        </ListItem>
+      ))}
       <ListItem
         button
         selected={props.selectedMenuIndex === 2}
