@@ -223,6 +223,7 @@ class Dashboard extends React.Component {
           showLabels={this.state.showLabels}
           hideLabels={() => this.setState({ showLabels: false })}
           updateLabels={this.updateLabels}
+          labels={this.state.labels}
         />
       </>
     );

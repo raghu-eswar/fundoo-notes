@@ -4,6 +4,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
 import AddLabel from "./AddLabel";
+import UpdateLabels from "./UpdateLabel";
 import * as Styled from "../styles/editLabels.styled";
 import { noteLabels } from "../services/notesServices";
 
@@ -26,6 +27,9 @@ export default function EditLabels(props) {
           Edit Labels
         </Typography>
         <AddLabel addNewLabel={addNewLabel} />
+        {props.labels.map((label) => (
+          <UpdateLabels label={label} />
+        ))}
         <Divider />
         <Styled.ButtonWraper>
           <Button onClick={props.hideLabels}>Done</Button>
