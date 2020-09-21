@@ -3,10 +3,17 @@ import Model from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Button from "@material-ui/core/Button";
-import AddLabel from './AddLabel';
+import AddLabel from "./AddLabel";
 import * as Styled from "../styles/editLabels.styled";
+import { noteLabels } from "../services/notesServices";
 
 export default function EditLabels(props) {
+  const addNewLabel = (label) => {
+    let data = { isDeleted: false, label: label, userId: props.userId };
+    noteLabels(data, props.token)
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Model open={props.showLabels} onClose={props.hideLabels}>
@@ -14,7 +21,7 @@ export default function EditLabels(props) {
         <Typography variant="h6" align="left">
           Edit Labels
         </Typography>
-        <AddLabel userId={props.userId} token={props.token}/>
+        <AddLabel addNewLabel={addNewLabel} />
         <Divider />
         <Styled.ButtonWraper>
           <Button onClick={props.hideLabels}>Done</Button>

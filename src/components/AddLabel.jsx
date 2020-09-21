@@ -4,7 +4,6 @@ import ClearIcon from "@material-ui/icons/Clear";
 import DoneIcon from "@material-ui/icons/Done";
 import IconButton from "@material-ui/core/IconButton";
 import * as Styled from "../styles/editLabels.styled";
-import { noteLabels } from "../services/notesServices";
 
 export default function EditLabels(props) {
   const [focus, setFocus] = React.useState(true);
@@ -19,14 +18,8 @@ export default function EditLabels(props) {
 
   const addLabel = () => {
     if (newLable) {
-      let data = { isDeleted: false, label: newLable, userId: props.userId };
-      noteLabels(data, props.token)
-        .then((response) => {
-          if (response.status === 200) {
-            setNewLable("");
-          }
-        })
-        .catch((error) => console.log(error));
+      props.addNewLabel(newLable);
+      setNewLable("");
     }
   };
 
