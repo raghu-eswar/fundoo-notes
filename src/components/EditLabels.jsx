@@ -11,7 +11,11 @@ export default function EditLabels(props) {
   const addNewLabel = (label) => {
     let data = { isDeleted: false, label: label, userId: props.userId };
     noteLabels(data, props.token)
-      .then((response) => console.log(response))
+      .then((response) => {
+        if (response.status === 200) {
+          props.updateLabels(props.token);
+        }
+      })
       .catch((error) => console.log(error));
   };
 

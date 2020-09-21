@@ -222,6 +222,7 @@ class Dashboard extends React.Component {
           token={this.state.user && this.state.user.token}
           showLabels={this.state.showLabels}
           hideLabels={() => this.setState({ showLabels: false })}
+          updateLabels={this.updateLabels}
         />
       </>
     );
