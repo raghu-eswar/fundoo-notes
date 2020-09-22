@@ -9,7 +9,7 @@ export default function DisplaySketchBoard(props) {
     setDrawings(props.drawing);
     setTimeout(() => {
       sketch.current.zoom(props.zoom);
-    }, 200);
+    }, 250);
   }, [props.drawing, props.zoom]);
 
   return (
