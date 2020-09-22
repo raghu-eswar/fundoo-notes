@@ -3,9 +3,13 @@ import Card from "@material-ui/core/Card";
 
 export const NoteContainer = styled(Card)`
   width: ${(props) => props.isGrid? '15rem': window.innerWidth/2+'px'};
-  background-color: ${(props) => props.backgroundColor};
   cursor: pointer;
-  border-radius: 8px;
+  &.MuiPaper-rounded {
+    border-radius: 8px;
+  }
+  .MuiCardContent-root:last-child {
+    padding-bottom: 0;
+  }
   .MuiCardContent-root {
     padding: 0 16px;
   }
@@ -30,7 +34,7 @@ export const TitleContainer = styled.div`
 export const DescriptionContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 `;
 export const SketchBoardContainer = styled.div`
   width: 100%;

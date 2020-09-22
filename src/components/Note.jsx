@@ -81,7 +81,7 @@ export default function Note(props) {
   return (
     <Styled.NoteContainer
       className={note.isPined ? "pinedNote" : "note"}
-      backgroundColor={note.color}
+      style={{backgroundColor: note.color,}}
       raised={hover}
       isGrid={props.isGrid}
       onMouseOver={()=> setHover(true)}

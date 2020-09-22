@@ -89,7 +89,9 @@ export const StyledSearchIcon = styled(SearchIcon)`
   }
 `;
 export const ReponsiveIconButton = styled(IconButton)`
-  color: white;
+  &.MuiIconButton-root {
+    color: #ffffff;
+  }
   @media (max-width: 350px) {
     display: none;
   }
