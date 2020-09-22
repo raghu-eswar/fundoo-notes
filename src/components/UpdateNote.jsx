@@ -107,7 +107,6 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
-  const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
 
   const setDrawing = (drawing) => {
     setNote({ ...note, drawing: drawing });
@@ -187,7 +186,7 @@ export default function UpdateNote(props) {
               toggleArchive={toggleArchive}
             />
             <SketchTool openSketchBoard={() => setOpenSketchBoard(true)} />
-            <MoreNoteOptions menuItems={activeNoteOptions} />
+            <MoreNoteOptions deleteNote={deleteNote} />
             <Styled.CloseButton>
               <Button onClick={saveNote}>Close</Button>
             </Styled.CloseButton>

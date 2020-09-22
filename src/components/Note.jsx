@@ -53,7 +53,7 @@ export default function Note(props) {
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
-  const deleteNote = () => {
+  const deleteOrRestoreNote = () => {
     let data = { isDeleted: !note.isDeleted, noteIdList: [note.id] };
     trashNotes(data, props.token).then(
       (response) => response.data.data.success && props.updateNotes(props.token)
@@ -75,17 +75,14 @@ export default function Note(props) {
     );
   };
 
-  const activeNoteOptions = [{ title: "Delete Note", onClick: deleteNote }];
-  const deletedNoteOptions = [{ title: "Restore", onClick: deleteNote }];
-
   return (
     <Styled.NoteContainer
       className={note.isPined ? "pinedNote" : "note"}
-      style={{backgroundColor: note.color,}}
+      style={{ backgroundColor: note.color }}
       raised={hover}
       isGrid={props.isGrid}
-      onMouseOver={()=> setHover(true)}
-      onMouseOut={()=> setHover(false)}
+      onMouseOver={() => setHover(true)}
+      onMouseOut={() => setHover(false)}
     >
       <CardContent>
         {note.drawing.objects.length > 0 && (
@@ -144,9 +141,11 @@ export default function Note(props) {
               toggleArchive={toggleArchive}
             />
           )}
-          <MoreNoteOptions
-            menuItems={note.isDeleted ? deletedNoteOptions : activeNoteOptions}
-          />
+          {note.isDeleted ? (
+            <MoreNoteOptions restoreNote={deleteOrRestoreNote} />
+          ) : (
+            <MoreNoteOptions deleteNote={deleteOrRestoreNote} />
+          )}
         </Styled.DescriptionContainer>
       </CardContent>
     </Styled.NoteContainer>

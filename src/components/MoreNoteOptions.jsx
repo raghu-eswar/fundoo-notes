@@ -2,7 +2,7 @@ import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+import DeleteOrRestoreNoteOption from "./DeleteOrRestoreNoteOption";
 
 export default function MoreNoteOptions(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -20,17 +20,13 @@ export default function MoreNoteOptions(props) {
       <IconButton {...props} onClick={openMenu}>
         <MoreVertIcon />
       </IconButton>
-      <Menu
-        id="fade-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={anchorEl}
-        onClose={closeMenu}
-      >
-        {props.menuItems &&
-          props.menuItems.map((menuItem) => (
-            <MenuItem onClick={menuItem.onClick}>{menuItem.title}</MenuItem>
-          ))}
+      <Menu anchorEl={anchorEl} keepMounted open={anchorEl} onClose={closeMenu}>
+        {props.deleteNote && (
+          <DeleteOrRestoreNoteOption deleteNote={props.deleteNote} />
+        )}
+        {props.restoreNote && (
+          <DeleteOrRestoreNoteOption restoreNote={props.restoreNote} />
+        )}
       </Menu>
     </>
   );
