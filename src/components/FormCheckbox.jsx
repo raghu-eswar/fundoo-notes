@@ -5,6 +5,8 @@ import Checkbox from "@material-ui/core/Checkbox";
 export default function FormCheckbox(props) {
   const [checked, setChecked] = React.useState(props.checked);
 
+  React.useEffect(() => setChecked(props.checked), [props.checked]);
+
   const onChangeHandler = (event) => {
     setChecked(event.target.checked);
     if (event.target.checked) props.onCheck(props.label);

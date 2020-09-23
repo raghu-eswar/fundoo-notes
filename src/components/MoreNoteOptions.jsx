@@ -46,6 +46,7 @@ export default function MoreNoteOptions(props) {
             labels={props.labels}
             addLabels={props.addLabels}
             removeLabels={props.removeLabels}
+            activeLabels={props.activeLabels}
           />
         )}
       </Menu>

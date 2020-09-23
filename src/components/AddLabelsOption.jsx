@@ -24,6 +24,14 @@ export default function AddLabelsOption(props) {
     );
     setLabels(_labels);
   };
+
+  const isActiveLabel = (label) => {
+    return (
+      props.activeLabels.filter((activeLabel) => activeLabel.id === label.id)
+        .length > 0
+    );
+  };
+  
   return (
     <>
       <MenuItem onClick={openMenu} style={{ width: "10rem" }}>
@@ -31,7 +39,6 @@ export default function AddLabelsOption(props) {
       </MenuItem>
       <Popover
         anchorEl={anchorEl}
-        keepMounted
         open={anchorEl}
         onClose={closeMenu}
         anchorOrigin={{
@@ -60,6 +67,7 @@ export default function AddLabelsOption(props) {
                 onCheck={props.addLabels}
                 onUnCheck={props.removeLabels}
                 label={label}
+                checked={isActiveLabel(label)}
               />
             ))}
           </Styled.LabelsContainer>
