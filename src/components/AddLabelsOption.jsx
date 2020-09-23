@@ -17,6 +17,13 @@ export default function AddLabelsOption(props) {
   const closeMenu = () => {
     setAnchorEl(null);
   };
+
+  const filterLabels = (event) => {
+    let _labels = props.labels.filter((label) =>
+      label.label.toUpperCase().includes(event.target.value.toUpperCase())
+    );
+    setLabels(_labels);
+  };
   return (
     <>
       <MenuItem onClick={openMenu} style={{ width: "10rem" }}>
@@ -41,7 +48,11 @@ export default function AddLabelsOption(props) {
             Label note
           </Typography>
           <Styled.SearchContainer>
-            <Styled.Input placeholder="search" autoFocus />
+            <Styled.Input
+              placeholder="search"
+              onChange={filterLabels}
+              autoFocus
+            />
           </Styled.SearchContainer>
           <Styled.LabelsContainer>
             {labels.map((label) => (
