@@ -103,6 +103,14 @@ export default function AddNewNote(props) {
       label: [...note.label, label.label],
     });
   };
+  const removeLabels = (label) => {
+    let index = note.label.indexOf(label.label);
+    let oldLabelIdList = note.labelIdList;
+    let oldLabel = note.label;
+    oldLabelIdList.splice(index, 1);
+    oldLabel.splice(index, 1);
+    setNote({ ...note, labelIdList: oldLabelIdList, label: oldLabel });
+  };
 
   return (
     <>
@@ -152,7 +160,7 @@ export default function AddNewNote(props) {
         )}
         {open &&
           note.labelIdList.map((label) => (
-            <LabelChip label={label} />
+            <LabelChip label={label} removeLabels={removeLabels} />
           ))}
         <Styled.OptionsContainer open={open}>
           <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
@@ -166,6 +174,7 @@ export default function AddNewNote(props) {
           <SketchTool openSketchBoard={() => setOpenSketchBoard(true)} />
           <MoreNoteOptions
             addLabels={addLabels}
+            removeLabels={removeLabels}
             labels={props.labels}
           />
           <Styled.CloseButton>
