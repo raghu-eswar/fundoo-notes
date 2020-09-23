@@ -170,6 +170,7 @@ class Dashboard extends React.Component {
               <AddNewNote
                 token={this.state.user ? this.state.user.token : ""}
                 updateNotes={this.updateNotes}
+                labels={this.state.labels}
               />
             )}
             <Styled.NotesContainer>
