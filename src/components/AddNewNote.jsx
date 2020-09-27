@@ -104,7 +104,7 @@ export default function AddNewNote(props) {
     });
   };
   const removeLabels = (label) => {
-    let index = note.noteLabels.indexOf(label.id);
+    let index = note.labelIdList.indexOf(label.id);
     let oldNoteLabels = note.noteLabels;
     let oldLabelIdList = note.labelIdList;
     oldNoteLabels.splice(index, 1);
