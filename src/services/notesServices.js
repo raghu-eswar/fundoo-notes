@@ -126,3 +126,17 @@ export const deleteNoteLabel = (labelId, token) => {
     }
   );
 };
+export const removeLabel = (noteId, labelId, token) => {
+  return axios.delete(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.notes +
+      "/" +
+      noteId +
+      notesApiConstants.labels +
+      "/"+
+      labelId,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};
