@@ -142,3 +142,19 @@ export const removeLabel = (noteId, labelId, token) => {
     }
   );
 };
+export const addLabel = (noteId, labelId, token) => {
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.notes +
+      "/" +
+      noteId +
+      notesApiConstants.addLabelToNotes +
+      "/" +
+      labelId +
+      notesApiConstants.add,
+    {},
+    {
+      headers: { Authorization: token },
+    }
+  );
+};

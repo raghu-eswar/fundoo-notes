@@ -1,4 +1,5 @@
 export const notesApiConstants = {
+    add: '/add',
     remove: '/remove',
     notes: '/api/notes',
     addNotes: '/api/notes/addNotes',
