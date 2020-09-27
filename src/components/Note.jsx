@@ -19,6 +19,7 @@ import {
   trashNotes,
   addUpdateReminderNotes,
   removeReminderNotes,
+  removeLabel,
 } from "../services/notesServices";
 
 export default function Note(props) {
@@ -75,6 +76,19 @@ export default function Note(props) {
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
+  const removeLabels = (label) => {
+    let index = note.labelIdList.indexOf(label.id);
+    let oldNoteLabels = note.noteLabels;
+    let oldLabelIdList = note.labelIdList;
+    oldNoteLabels.splice(index, 1);
+    oldLabelIdList.splice(index, 1);
+    setNote({
+      ...note,
+      labelIdList: oldLabelIdList,
+      noteLabels: oldNoteLabels,
+    });
+    removeLabel(note.id, label.id, props.token);
+  };
 
   return (
     <Styled.NoteContainer
@@ -124,7 +138,7 @@ export default function Note(props) {
           />
         )}
         {note.noteLabels.map((label) => (
-          <LabelChip label={label} />
+          <LabelChip label={label} removeLabels={removeLabels} />
         ))}
         <Styled.DescriptionContainer>
           {!note.isDeleted && (
