@@ -111,6 +111,7 @@ class Dashboard extends React.Component {
     let user = this.state.user;
     user.imageUrl = imageUrl;
     this.setState({ user: user });
+    localStorage.setItem("user", JSON.stringify(user));
   };
   render() {
     let displayNotesList = [];
