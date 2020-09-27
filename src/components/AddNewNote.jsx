@@ -56,7 +56,7 @@ export default function AddNewNote(props) {
       formData.append("color", note.color);
       formData.append("isPined", note.isPined);
       formData.append("isArchived", note.isArchived);
-      formData.append("labelIdList", note.labelIdList);
+      formData.append("labelIdList", JSON.stringify(note.labelIdList));
       if (drawing.objects.length > 0) {
         let description =
           note.description + " $SKETCH" + JSON.stringify(drawing);
@@ -99,17 +99,17 @@ export default function AddNewNote(props) {
   const addLabels = (label) => {
     setNote({
       ...note,
-      labelIdList: [...note.labelIdList, label],
-      label: [...note.label, label.label],
+      noteLabels: [...note.noteLabels, label],
+      labelIdList: [...note.labelIdList, label.id],
     });
   };
   const removeLabels = (label) => {
-    let index = note.label.indexOf(label.label);
+    let index = note.noteLabels.indexOf(label.id);
+    let oldNoteLabels = note.noteLabels;
     let oldLabelIdList = note.labelIdList;
-    let oldLabel = note.label;
+    oldNoteLabels.splice(index, 1);
     oldLabelIdList.splice(index, 1);
-    oldLabel.splice(index, 1);
-    setNote({ ...note, labelIdList: oldLabelIdList, label: oldLabel });
+    setNote({ ...note, labelIdList: oldLabelIdList, noteLabels: oldNoteLabels });
   };
 
   return (
@@ -159,7 +159,7 @@ export default function AddNewNote(props) {
           />
         )}
         {open &&
-          note.labelIdList.map((label) => (
+          note.noteLabels.map((label) => (
             <LabelChip label={label} removeLabels={removeLabels} />
           ))}
         <Styled.OptionsContainer open={open}>
@@ -176,7 +176,7 @@ export default function AddNewNote(props) {
             addLabels={addLabels}
             removeLabels={removeLabels}
             labels={props.labels}
-            activeLabels={note.labelIdList}
+            activeLabels={note.noteLabels}
           />
           <Styled.CloseButton>
             <Button onClick={saveNote}>Close</Button>
