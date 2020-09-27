@@ -6,7 +6,7 @@ export default function LabelChip(props) {
     <Chip
       label={props.label.label}
       onDelete={() => props.removeLabels(props.label)}
-      style={{ backgroundColor: "rgba(0,0,0,0.08)", margin: "0 5px" }}
+      style={{ backgroundColor: "rgba(0,0,0,0.08)", margin: "2px 5px" }}
     />
   );
 }

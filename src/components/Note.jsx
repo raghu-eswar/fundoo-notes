@@ -10,6 +10,7 @@ import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import ReminderChip from "./ReminderChip";
 import DisplaySketchBoard from "./DisplaySketchBoard";
+import LabelChip from "./LabelChip";
 import * as Styled from "../styles/note.styled";
 import {
   changeNoteColor,
@@ -122,6 +123,9 @@ export default function Note(props) {
             deleteReminder={removeReminder}
           />
         )}
+        {note.noteLabels.map((label) => (
+          <LabelChip label={label} />
+        ))}
         <Styled.DescriptionContainer>
           {!note.isDeleted && (
             <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
