@@ -1,4 +1,5 @@
 export const notesApiConstants = {
+    remove: '/remove',
     notes: '/api/notes',
     addNotes: '/api/notes/addNotes',
     getNotesList: '/api/notes/getNotesList',
@@ -13,5 +14,5 @@ export const notesApiConstants = {
     getNoteLabelList: '/api/noteLabels/getNoteLabelList',
     updateNoteLabel: '/updateNoteLabel',
     deleteNoteLabel: '/deleteNoteLabel',
-    labels: '/noteLabels'
+    addLabelToNotes: '/addLabelToNotes'
 }
