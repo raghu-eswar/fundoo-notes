@@ -20,12 +20,12 @@ import {
   addUpdateReminderNotes,
   removeReminderNotes,
   removeLabel,
+  addLabel,
 } from "../services/notesServices";
 
 export default function Note(props) {
   const [note, setNote] = React.useState(props.note);
   const [hover, setHover] = React.useState(false);
-
   React.useEffect(() => {
     setNote(props.note);
   }, [props.note]);
@@ -87,7 +87,19 @@ export default function Note(props) {
       labelIdList: oldLabelIdList,
       noteLabels: oldNoteLabels,
     });
-    removeLabel(note.id, label.id, props.token);
+    removeLabel(note.id, label.id, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+  };
+  const addLabels = (label) => {
+    setNote({
+      ...note,
+      noteLabels: [...note.noteLabels, label],
+      labelIdList: [...note.labelIdList, label.id],
+    });
+    addLabel(note.id, label.id, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
   };
 
   return (
@@ -162,7 +174,13 @@ export default function Note(props) {
           {note.isDeleted ? (
             <MoreNoteOptions restoreNote={deleteOrRestoreNote} />
           ) : (
-            <MoreNoteOptions deleteNote={deleteOrRestoreNote} />
+            <MoreNoteOptions
+              deleteNote={deleteOrRestoreNote}
+              addLabels={addLabels}
+              removeLabels={removeLabels}
+              labels={props.labels}
+              activeLabels={note.labelIdList}
+            />
           )}
         </Styled.DescriptionContainer>
       </CardContent>

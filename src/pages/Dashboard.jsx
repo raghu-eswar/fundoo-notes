@@ -7,7 +7,7 @@ import SideNavBar from "../components/SideNavBar";
 import UpdateNote from "../components/UpdateNote";
 import Note from "../components/Note";
 import EditLabels from "../components/EditLabels";
-import Loader from '../components/Loader';
+import Loader from "../components/Loader";
 import * as Styled from "../styles/dashboard.styled";
 import { getNotesList, getNoteLabelList } from "../services/notesServices";
 
@@ -53,7 +53,7 @@ class Dashboard extends React.Component {
   };
 
   updateNotes = (token) => {
-    this.setState({isLoading: true})
+    this.setState({ isLoading: true });
     getNotesList(token)
       .then((response) => {
         let notes = response.data.data.data;
@@ -69,8 +69,9 @@ class Dashboard extends React.Component {
             note.description = description;
             note.drawing = { backgroundColor: "transparent", objects: [] };
           }
+          note.labelIdList = note.noteLabels.map((label) => label.id);
         });
-    this.setState({ notes: notes, isLoading: false });
+        this.setState({ notes: notes, isLoading: false });
       })
       .catch((error) => console.log(error));
   };
@@ -189,6 +190,7 @@ class Dashboard extends React.Component {
                       token={this.state.user ? this.state.user.token : ""}
                       updateNotes={this.updateNotes}
                       isGrid={this.state.isGrid}
+                      labels={this.state.labels}
                     />
                   ))}
               </div>
@@ -209,6 +211,7 @@ class Dashboard extends React.Component {
                       token={this.state.user ? this.state.user.token : ""}
                       updateNotes={this.updateNotes}
                       isGrid={this.state.isGrid}
+                      labels={this.state.labels}
                     />
                   ))}
               </div>
