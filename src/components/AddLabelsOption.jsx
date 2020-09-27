@@ -27,7 +27,7 @@ export default function AddLabelsOption(props) {
 
   const isActiveLabel = (label) => {
     return (
-      props.activeLabels.filter((activeLabel) => activeLabel.id === label.id)
+      props.activeLabels.filter((activeLabelId) => activeLabelId === label.id)
         .length > 0
     );
   };

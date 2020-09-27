@@ -176,7 +176,7 @@ export default function AddNewNote(props) {
             addLabels={addLabels}
             removeLabels={removeLabels}
             labels={props.labels}
-            activeLabels={note.noteLabels}
+            activeLabels={note.labelIdList}
           />
           <Styled.CloseButton>
             <Button onClick={saveNote}>Close</Button>
