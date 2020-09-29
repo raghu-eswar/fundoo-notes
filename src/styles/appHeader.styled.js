@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import InputBase from "@material-ui/core/InputBase";
-import SportsVolleyballRoundedIcon from "@material-ui/icons/SportsVolleyballRounded";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
+import FiberManualRecordIcon from "@material-ui/icons/FiberManualRecord";
 
 const SearchContainer = styled.div`
   width: 60%;
@@ -49,13 +49,27 @@ const SearchInputWraper = styled.span`
   }
 `;
 const LogoContainer = styled.div`
-  width: 15rem;
+  width: 13rem;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  & > h1 {
+    background: linear-gradient(to bottom right, #fee440, #9b5de5, red);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: bolder;
+    font-size: 1.6rem;
+    text-shadow: 3px 1px rgba(0, 0, 0, 0.1), 3px 1px rgba(0, 0, 0, 0.39);
+  }
 `;
-const Icon = styled(SportsVolleyballRoundedIcon)`
-  margin: 5px;
+const Icon = styled(FiberManualRecordIcon)`
+  margin: 5px 10px 0px 5px;
   font-size: xx-large;
+  color: #f15bb5;
+  filter: drop-shadow(0px 0px 1px #000) drop-shadow(0px 9px 2px #ffffff)
+    drop-shadow(-9px -4px 0px #9b5de5) drop-shadow(9px -4px 0px #fee440);
 `;
 export const SearchBar = () => (
   <SearchContainer>
@@ -70,7 +84,7 @@ export const SearchBar = () => (
 export const Logo = () => (
   <LogoContainer>
     <Icon />
-    <Typography component="h1" variant="h6" color="inherit" noWrap>
+    <Typography component="h1" color="inherit" noWrap>
       fundooNotes
     </Typography>
   </LogoContainer>
