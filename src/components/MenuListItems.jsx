@@ -37,7 +37,7 @@ export default function MenuListItems(props) {
         <ListItem
           button
           selected={props.selectedMenuOption === label.id}
-          onClick={() => props.selectMenuOption(menuOptions.LABEL)}
+          onClick={() => props.selectMenuOption(label.id)}
         >
           <ListItemIcon>
             <LabelOutlinedIcon />

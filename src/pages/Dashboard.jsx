@@ -132,6 +132,9 @@ class Dashboard extends React.Component {
         activeNotesList = this.state.notes.filter((note) => note.isDeleted);
         break;
       default:
+        activeNotesList = this.state.notes.filter((note) =>
+          note.labelIdList.includes(selectedMenuOption)
+        );
         break;
     }
     this.setState({
@@ -173,8 +176,8 @@ class Dashboard extends React.Component {
             labels={this.state.labels}
           />
           <div style={{ width: "100%" }}>
-            {(this.state.selectedMenuOption === menuOptions.NOTES ||
-              this.state.selectedMenuOption === menuOptions.REMINDERS) && (
+            {(this.state.selectedMenuOption !== menuOptions.ARCHIVE &&
+              this.state.selectedMenuOption !== menuOptions.TRASH) && (
               <AddNewNote
                 token={this.state.user ? this.state.user.token : ""}
                 updateNotes={this.updateNotes}
