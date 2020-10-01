@@ -23,6 +23,7 @@ import {
   addUpdateReminderNotes,
   removeReminderNotes,
   removeLabel,
+  addLabel,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -128,6 +129,16 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
+  const addLabels = (label) => {
+    setNote({
+      ...note,
+      noteLabels: [...note.noteLabels, label],
+      labelIdList: [...note.labelIdList, label.id],
+    });
+    addLabel(note.id, label.id, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
 
   return (
     <>
@@ -207,7 +218,15 @@ export default function UpdateNote(props) {
               toggleArchive={toggleArchive}
             />
             <SketchTool openSketchBoard={() => setOpenSketchBoard(true)} />
-            <MoreNoteOptions deleteNote={deleteNote} />
+            {open && (
+              <MoreNoteOptions
+                deleteNote={deleteNote}
+                addLabels={addLabels}
+                removeLabels={removeLabels}
+                labels={props.labels}
+                activeLabels={note.labelIdList}
+              />
+            )}
             <Styled.CloseButton>
               <Button onClick={saveNote}>Close</Button>
             </Styled.CloseButton>
