@@ -22,6 +22,7 @@ import {
   trashNotes,
   addUpdateReminderNotes,
   removeReminderNotes,
+  removeLabel,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -112,6 +113,21 @@ export default function UpdateNote(props) {
   const setDrawing = (drawing) => {
     setNote({ ...note, drawing: drawing });
   };
+  const removeLabels = (label) => {
+    let index = note.labelIdList.indexOf(label.id);
+    let oldNoteLabels = note.noteLabels;
+    let oldLabelIdList = note.labelIdList;
+    oldNoteLabels.splice(index, 1);
+    oldLabelIdList.splice(index, 1);
+    setNote({
+      ...note,
+      labelIdList: oldLabelIdList,
+      noteLabels: oldNoteLabels,
+    });
+    removeLabel(note.id, label.id, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+  };
 
   return (
     <>
@@ -170,9 +186,10 @@ export default function UpdateNote(props) {
               deleteReminder={removeReminder}
             />
           )}
-          {open && note.noteLabels.map((label) => (
-            <LabelChip label={label} />
-          ))}
+          {open &&
+            note.noteLabels.map((label) => (
+              <LabelChip label={label} removeLabels={removeLabels} />
+            ))}
           <Styled.OptionsContainer>
             <Reminder
               addReminder={addReminder}
