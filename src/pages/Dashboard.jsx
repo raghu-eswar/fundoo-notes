@@ -182,6 +182,7 @@ class Dashboard extends React.Component {
                 token={this.state.user ? this.state.user.token : ""}
                 updateNotes={this.updateNotes}
                 labels={this.state.labels}
+                selectedMenuOption={this.state.selectedMenuOption}
               />
             )}
             <Styled.NotesContainer>

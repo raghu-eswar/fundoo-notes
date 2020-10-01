@@ -16,7 +16,9 @@ import Modal from "@material-ui/core/Modal";
 import * as Styled from "../styles/addNewNote.styled";
 import { addNotes } from "../services/notesServices";
 
-const reset = () => {
+const reset = (selectedMenuOption, labels) => {
+  let noteLabels = labels.filter((label) => label.id === selectedMenuOption);
+  let labelIdList = noteLabels.length > 0 ? [noteLabels[0].id] : [];
   return {
     title: "",
     description: "",
@@ -33,9 +35,9 @@ const reset = () => {
     collaborators: [],
     userId: "",
     collaberator: [],
-    labelIdList: [],
+    labelIdList: labelIdList,
     noteCheckLists: [],
-    noteLabels: [],
+    noteLabels: noteLabels,
     questionAndAnswerNotes: [],
   };
 };
@@ -47,8 +49,12 @@ export default function AddNewNote(props) {
     backgroundColor: "transparent",
     objects: [],
   });
-  const [note, setNote] = React.useState(reset());
-
+  const [note, setNote] = React.useState(
+    reset(props.selectedMenuOption, props.labels)
+  );
+  React.useEffect(() => {
+    setNote(reset(props.selectedMenuOption, props.labels));
+  }, [props.selectedMenuOption, props.labels]);
   const saveNote = () => {
     if (note.title || note.description || drawing.objects.length > 0) {
       let formData = new FormData();
@@ -67,7 +73,7 @@ export default function AddNewNote(props) {
         .then((response) => {
           if (response.status === 200) {
             setOpen(false);
-            setNote(reset());
+            setNote(reset(props.selectedMenuOption, props.labels));
             setDrawing({ backgroundColor: "transparent", objects: [] });
             props.updateNotes(props.token);
           }
@@ -75,7 +81,7 @@ export default function AddNewNote(props) {
         .catch((error) => console.log(error));
     } else {
       setOpen(false);
-      setNote(reset());
+      setNote(reset(props.selectedMenuOption, props.labels));
       setDrawing({ backgroundColor: "transparent", objects: [] });
     }
   };
@@ -109,7 +115,11 @@ export default function AddNewNote(props) {
     let oldLabelIdList = note.labelIdList;
     oldNoteLabels.splice(index, 1);
     oldLabelIdList.splice(index, 1);
-    setNote({ ...note, labelIdList: oldLabelIdList, noteLabels: oldNoteLabels });
+    setNote({
+      ...note,
+      labelIdList: oldLabelIdList,
+      noteLabels: oldNoteLabels,
+    });
   };
 
   return (
