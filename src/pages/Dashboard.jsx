@@ -9,6 +9,7 @@ import Note from "../components/Note";
 import EditLabels from "../components/EditLabels";
 import Loader from "../components/Loader";
 import * as Styled from "../styles/dashboard.styled";
+import { menuOptions } from "../enumeration/menuOptions";
 import { getNotesList, getNoteLabelList } from "../services/notesServices";
 
 class Dashboard extends React.Component {
@@ -19,18 +20,19 @@ class Dashboard extends React.Component {
       notes: [],
       refresh: false,
       noteToUpdate: null,
-      selectedMenuIndex: 0,
+      selectedMenuOption: menuOptions.NOTES,
       isGrid: true,
       showLabels: false,
       labels: [],
       isLoading: false,
+      activeNotesList: [],
     };
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.fixLayOut);
     let user = JSON.parse(localStorage.getItem("user"));
-    this.updateNotes(user.token);
+    this.updateNotes(user.token, true);
     this.setState({ user: user });
     this.updateLabels(user.token);
   }
@@ -71,23 +73,27 @@ class Dashboard extends React.Component {
           }
           note.labelIdList = note.noteLabels.map((label) => label.id);
         });
-        this.setState({ notes: notes, isLoading: false });
+        this.setState({ notes: notes, isLoading: false }, () => {
+          this.selectMenuOption(this.state.selectedMenuOption);
+        });
       })
       .catch((error) => console.log(error));
   };
   fixLayOut = () => {
-    let unPinedGrid = new Minigrid({
-      container: ".notesContainer",
-      item: ".note",
-      gutter: 25,
-    });
-    let pinedGrid = new Minigrid({
-      container: ".pinedNotesContainer",
-      item: ".pinedNote",
-      gutter: 25,
-    });
-    unPinedGrid.mount();
-    pinedGrid.mount();
+    if (this.state.activeNotesList.length > 0) {
+      let unPinedGrid = new Minigrid({
+        container: ".notesContainer",
+        item: ".note",
+        gutter: 25,
+      });
+      let pinedGrid = new Minigrid({
+        container: ".pinedNotesContainer",
+        item: ".pinedNote",
+        gutter: 25,
+      });
+      unPinedGrid.mount();
+      pinedGrid.mount();
+    }
   };
 
   handleDrawerOpen = () => {
@@ -100,13 +106,38 @@ class Dashboard extends React.Component {
   closeNote = () => {
     this.setState({ noteToUpdate: null });
   };
-  selectMenuOption = (selectedMenuIndex) => {
-    if (selectedMenuIndex === 2) {
+  selectMenuOption = (selectedMenuOption) => {
+    let activeNotesList = [];
+    if (selectedMenuOption === menuOptions.EDIT_LABELS) {
       this.setState({ showLabels: true });
       return;
     }
-    if (this.state.selectedMenuIndex !== selectedMenuIndex)
-      this.setState({ selectedMenuIndex: selectedMenuIndex });
+    switch (selectedMenuOption) {
+      case menuOptions.NOTES:
+        activeNotesList = this.state.notes.filter(
+          (note) => !note.isArchived && !note.isDeleted
+        );
+        break;
+      case menuOptions.REMINDERS:
+        activeNotesList = this.state.notes.filter(
+          (note) => note.reminder.length > 0 && !note.isDeleted
+        );
+        break;
+      case menuOptions.ARCHIVE:
+        activeNotesList = this.state.notes.filter(
+          (note) => note.isArchived && !note.isDeleted
+        );
+        break;
+      case menuOptions.TRASH:
+        activeNotesList = this.state.notes.filter((note) => note.isDeleted);
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      selectedMenuOption: selectedMenuOption,
+      activeNotesList: activeNotesList,
+    });
   };
   upDateProfileImage = (imageUrl) => {
     let user = this.state.user;
@@ -115,31 +146,6 @@ class Dashboard extends React.Component {
     localStorage.setItem("user", JSON.stringify(user));
   };
   render() {
-    let displayNotesList = [];
-    if (this.state.notes.length > 0) {
-      switch (this.state.selectedMenuIndex) {
-        case 0:
-          displayNotesList = this.state.notes.filter(
-            (note) => !note.isArchived && !note.isDeleted
-          );
-          break;
-        case 1:
-          displayNotesList = this.state.notes.filter(
-            (note) => note.reminder.length > 0 && !note.isDeleted
-          );
-          break;
-        case 3:
-          displayNotesList = this.state.notes.filter(
-            (note) => note.isArchived && !note.isDeleted
-          );
-          break;
-        case 4:
-          displayNotesList = this.state.notes.filter((note) => note.isDeleted);
-          break;
-        default:
-          break;
-      }
-    }
     return (
       <>
         <AppHeader
@@ -162,13 +168,13 @@ class Dashboard extends React.Component {
         <Styled.MainContainer>
           <SideNavBar
             open={this.state.openMenu}
-            selectedMenuIndex={this.state.selectedMenuIndex}
+            selectedMenuOption={this.state.selectedMenuOption}
             selectMenuOption={this.selectMenuOption}
             labels={this.state.labels}
           />
           <div style={{ width: "100%" }}>
-            {(this.state.selectedMenuIndex === 0 ||
-              this.state.selectedMenuIndex === 1) && (
+            {(this.state.selectedMenuOption === menuOptions.NOTES ||
+              this.state.selectedMenuOption === menuOptions.REMINDERS) && (
               <AddNewNote
                 token={this.state.user ? this.state.user.token : ""}
                 updateNotes={this.updateNotes}
@@ -181,7 +187,7 @@ class Dashboard extends React.Component {
                 style={{ margin: "auto" }}
                 ref={(element) => (this.pinedGrid = element)}
               >
-                {displayNotesList
+                {this.state.activeNotesList
                   .filter((note) => note.isPined)
                   .map((note) => (
                     <Note
@@ -194,15 +200,14 @@ class Dashboard extends React.Component {
                     />
                   ))}
               </div>
-              {displayNotesList.filter((note) => note.isPined).length > 0 && (
-                <Divider />
-              )}
+              {this.state.activeNotesList.filter((note) => note.isPined)
+                .length > 0 && <Divider />}
               <div
                 className="notesContainer"
                 style={{ margin: "auto" }}
                 ref={(element) => (this.unPinedGrid = element)}
               >
-                {displayNotesList
+                {this.state.activeNotesList
                   .filter((note) => !note.isPined)
                   .map((note) => (
                     <Note
@@ -224,6 +229,7 @@ class Dashboard extends React.Component {
           token={this.state.user ? this.state.user.token : ""}
           closeNote={this.closeNote}
           updateNotes={this.updateNotes}
+          labels={this.state.labels}
         />
         <EditLabels
           userId={this.state.user && this.state.user.userId}

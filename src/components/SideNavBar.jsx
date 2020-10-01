@@ -11,7 +11,7 @@ export default function SideNavBar(props) {
     <Styled.SideDrawNav variant="permanent" isOpen={open}>
       <List>
         <MenuListItems
-          selectedMenuIndex={props.selectedMenuIndex}
+          selectedMenuOption={props.selectedMenuOption}
           selectMenuOption={props.selectMenuOption}
           labels={props.labels}
         />

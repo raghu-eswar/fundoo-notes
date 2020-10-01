@@ -8,14 +8,15 @@ import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import ArchiveOutlinedIcon from "@material-ui/icons/ArchiveOutlined";
 import DeleteSweepRoundedIcon from "@material-ui/icons/DeleteSweepRounded";
 import LabelOutlinedIcon from "@material-ui/icons/LabelOutlined";
+import { menuOptions } from "../enumeration/menuOptions";
 
 export default function MenuListItems(props) {
   return (
     <>
       <ListItem
         button
-        selected={props.selectedMenuIndex === 0}
-        onClick={() => props.selectMenuOption(0)}
+        selected={props.selectedMenuOption === menuOptions.NOTES}
+        onClick={() => props.selectMenuOption(menuOptions.NOTES)}
       >
         <ListItemIcon>
           <EmojiObjectsOutlinedIcon />
@@ -24,8 +25,8 @@ export default function MenuListItems(props) {
       </ListItem>
       <ListItem
         button
-        selected={props.selectedMenuIndex === 1}
-        onClick={() => props.selectMenuOption(1)}
+        selected={props.selectedMenuOption === menuOptions.REMINDERS}
+        onClick={() => props.selectMenuOption(menuOptions.REMINDERS)}
       >
         <ListItemIcon>
           <AddAlertSharpIcon />
@@ -33,7 +34,11 @@ export default function MenuListItems(props) {
         <ListItemText primary="Reminders" />
       </ListItem>
       {props.labels.map((label) => (
-        <ListItem button>
+        <ListItem
+          button
+          selected={props.selectedMenuOption === label.id}
+          onClick={() => props.selectMenuOption(menuOptions.LABEL)}
+        >
           <ListItemIcon>
             <LabelOutlinedIcon />
           </ListItemIcon>
@@ -42,8 +47,8 @@ export default function MenuListItems(props) {
       ))}
       <ListItem
         button
-        selected={props.selectedMenuIndex === 2}
-        onClick={() => props.selectMenuOption(2)}
+        selected={props.selectedMenuOption === menuOptions.EDIT_LABELS}
+        onClick={() => props.selectMenuOption(menuOptions.EDIT_LABELS)}
       >
         <ListItemIcon>
           <EditOutlinedIcon />
@@ -52,8 +57,8 @@ export default function MenuListItems(props) {
       </ListItem>
       <ListItem
         button
-        selected={props.selectedMenuIndex === 3}
-        onClick={() => props.selectMenuOption(3)}
+        selected={props.selectedMenuOption === menuOptions.ARCHIVE}
+        onClick={() => props.selectMenuOption(menuOptions.ARCHIVE)}
       >
         <ListItemIcon>
           <ArchiveOutlinedIcon />
@@ -62,8 +67,8 @@ export default function MenuListItems(props) {
       </ListItem>
       <ListItem
         button
-        selected={props.selectedMenuIndex === 4}
-        onClick={() => props.selectMenuOption(4)}
+        selected={props.selectedMenuOption === menuOptions.TRASH}
+        onClick={() => props.selectMenuOption(menuOptions.TRASH)}
       >
         <ListItemIcon>
           <DeleteSweepRoundedIcon />
