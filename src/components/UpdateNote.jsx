@@ -12,6 +12,7 @@ import ReminderChip from "./ReminderChip";
 import SketchTool from "./SketchTool";
 import SketchBoard from "./SketchBoard.jsx";
 import DisplaySketchBoard from "./DisplaySketchBoard";
+import LabelChip from "./LabelChip";
 import * as Styled from "../styles/updateNote.styled";
 import {
   updateNotes,
@@ -169,6 +170,9 @@ export default function UpdateNote(props) {
               deleteReminder={removeReminder}
             />
           )}
+          {open && note.noteLabels.map((label) => (
+            <LabelChip label={label} />
+          ))}
           <Styled.OptionsContainer>
             <Reminder
               addReminder={addReminder}
