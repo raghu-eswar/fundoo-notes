@@ -174,7 +174,7 @@ export default function AddNewNote(props) {
           ))}
         <Styled.OptionsContainer open={open}>
           <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
-          <Collaborate />
+          <Collaborate token={props.token}/>
           <AddColor addColor={addColor} color={note.color} />
           <AddImage />
           <ArchiveNote
