@@ -158,3 +158,12 @@ export const addLabel = (noteId, labelId, token) => {
     }
   );
 };
+export const searchUserList = (data, token) => {
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL + notesApiConstants.searchUserList,
+    data,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};
