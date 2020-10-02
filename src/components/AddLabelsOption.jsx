@@ -66,7 +66,8 @@ export default function AddLabelsOption(props) {
               <FormCheckbox
                 onCheck={props.addLabels}
                 onUnCheck={props.removeLabels}
-                label={label}
+                label={label.label}
+                data={label}
                 checked={isActiveLabel(label)}
               />
             ))}

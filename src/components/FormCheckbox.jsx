@@ -9,8 +9,8 @@ export default function FormCheckbox(props) {
 
   const onChangeHandler = (event) => {
     setChecked(event.target.checked);
-    if (event.target.checked) props.onCheck(props.label);
-    else props.onUnCheck(props.label);
+    if (event.target.checked) props.onCheck(props.data);
+    else props.onUnCheck(props.data);
   };
   return (
     <FormControlLabel
@@ -21,7 +21,7 @@ export default function FormCheckbox(props) {
           onChange={onChangeHandler}
         />
       }
-      label={props.label.label}
+      label={props.label}
     />
   );
 }
