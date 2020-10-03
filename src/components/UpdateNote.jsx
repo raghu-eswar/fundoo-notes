@@ -13,6 +13,7 @@ import SketchTool from "./SketchTool";
 import SketchBoard from "./SketchBoard.jsx";
 import DisplaySketchBoard from "./DisplaySketchBoard";
 import LabelChip from "./LabelChip";
+import CollaboratorsAvatar from "./CollaboratorsAvatar";
 import * as Styled from "../styles/updateNote.styled";
 import {
   updateNotes,
@@ -24,6 +25,8 @@ import {
   removeReminderNotes,
   removeLabel,
   addLabel,
+  AddcollaboratorsNotes,
+  removeCollaboratorsNotes,
 } from "../services/notesServices";
 
 export default function UpdateNote(props) {
@@ -139,6 +142,30 @@ export default function UpdateNote(props) {
       (response) => response.data.data.success && setUpdate(true)
     );
   };
+  const addCollaborators = (collaberator) => {
+    AddcollaboratorsNotes(note.id, collaberator, props.token).then(
+      (response) => response.data.data.success && setUpdate(true)
+    );
+    setNote({
+      ...note,
+      collaborators: [...note.collaborators, collaberator],
+    });
+  };
+  const removeCollaborators = (collaberatorToRemove) => {
+    removeCollaboratorsNotes(
+      note.id,
+      collaberatorToRemove.userId,
+      props.token
+    ).then((response) => response.data.data.success && setUpdate(true));
+    let collaborators = note.collaborators;
+    let newcollaborators = collaborators.filter(
+      (collaberator) => collaberator.userId !== collaberatorToRemove.userId
+    );
+    setNote({
+      ...note,
+      collaborators: newcollaborators,
+    });
+  };
 
   return (
     <>
@@ -201,12 +228,24 @@ export default function UpdateNote(props) {
             note.noteLabels.map((label) => (
               <LabelChip label={label} removeLabels={removeLabels} />
             ))}
+          {open &&
+            note.collaborators.map((collaborator) => (
+              <CollaboratorsAvatar
+                collaborator={collaborator}
+                removeCollaborators={removeCollaborators}
+              />
+            ))}
           <Styled.OptionsContainer>
             <Reminder
               addReminder={addReminder}
               reminder={open && note.reminder[0]}
             />
-            <Collaborate />
+            <Collaborate
+              token={props.token}
+              addCollaborators={addCollaborators}
+              removeCollaborators={removeCollaborators}
+              collaborators={open && note.collaborators}
+            />
             <AddColor
               addColor={addColor}
               onPickerClose={saveColor}
