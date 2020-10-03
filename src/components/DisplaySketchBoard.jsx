@@ -8,7 +8,7 @@ export default function DisplaySketchBoard(props) {
   React.useEffect(() => {
     setDrawings(props.drawing);
     setTimeout(() => {
-      sketch.current.zoom(props.zoom);
+      if (sketch.current) sketch.current.zoom(props.zoom);
     }, 250);
   }, [props.drawing, props.zoom]);
 
