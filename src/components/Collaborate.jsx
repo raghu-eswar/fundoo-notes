@@ -1,6 +1,7 @@
 import React from "react";
 import IconButton from "@material-ui/core/IconButton";
 import GroupAddOutlinedIcon from "@material-ui/icons/GroupAddOutlined";
+import CollaboratorsAvatar from "./CollaboratorsAvatar";
 import Popover from "@material-ui/core/Popover";
 import Typography from "@material-ui/core/Typography";
 import FormCheckbox from "./FormCheckbox";
@@ -9,14 +10,21 @@ import { searchUserList } from "../services/notesServices";
 
 export default function Collaborate(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [collaborators, setCollaborators] = React.useState([]);
+  const [collaborators, setCollaborators] = React.useState(
+    props.collaborators ? props.collaborators : []
+  );
+  const [users, setUsers] = React.useState([]);
 
+  React.useEffect(
+    () => setCollaborators(props.collaborators ? props.collaborators : []),
+    [props.collaborators]
+  );
   const openMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const closeMenu = () => {
-    setCollaborators([]);
+    setUsers([]);
     setAnchorEl(null);
   };
 
@@ -25,10 +33,9 @@ export default function Collaborate(props) {
     if (value) {
       let data = { searchWord: value };
       searchUserList(data, props.token).then((response) => {
-        if (response.data.data.success)
-          setCollaborators(response.data.data.details);
+        if (response.data.data.success) setUsers(response.data.data.details);
       });
-    } else setCollaborators([]);
+    } else setUsers([]);
   };
   return (
     <>
@@ -55,9 +62,26 @@ export default function Collaborate(props) {
               onChange={searchUsers}
             />
           </Styled.SearchContainer>
+          {collaborators.map((collaborator) => (
+            <CollaboratorsAvatar
+              collaborator={collaborator}
+              removeCollaborators={props.removeCollaborators}
+            />
+          ))}
           <Styled.LabelsContainer>
-            {collaborators.map((collaborator) => (
-              <FormCheckbox label={collaborator.email} />
+            {collaborators.length > 0 && (
+              <hr size={2} color="gray" width="30%" />
+            )}
+            {users.map((user) => (
+              <FormCheckbox
+                label={user.email}
+                data={user}
+                onCheck={props.addCollaborators}
+                onUnCheck={props.removeCollaborators}
+                checked={collaborators.some(
+                  ({ userId }) => user.userId === userId
+                )}
+              />
             ))}
           </Styled.LabelsContainer>
         </Styled.MainContainer>

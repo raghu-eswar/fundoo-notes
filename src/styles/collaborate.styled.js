@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const MainContainer = styled.div`
   width: auto;
+  max-width: 25rem;
   padding: 1rem;
 `;
 export const SearchContainer = styled.div`
