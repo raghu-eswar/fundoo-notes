@@ -180,3 +180,17 @@ export const AddcollaboratorsNotes = (noteId, data, token) => {
     }
   );
 };
+export const removeCollaboratorsNotes = (noteId, userId, token) => {
+  return axios.delete(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.notes +
+      "/" +
+      noteId +
+      notesApiConstants.removeCollaboratorsNotes +
+      "/" +
+      userId,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};

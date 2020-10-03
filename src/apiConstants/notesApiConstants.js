@@ -18,4 +18,5 @@ export const notesApiConstants = {
     addLabelToNotes: '/addLabelToNotes',
     searchUserList: '/api/user/searchUserList',
     AddcollaboratorsNotes: '/AddcollaboratorsNotes',
+    removeCollaboratorsNotes: '/removeCollaboratorsNotes',
 }
