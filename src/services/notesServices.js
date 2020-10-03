@@ -167,3 +167,16 @@ export const searchUserList = (data, token) => {
     }
   );
 };
+export const AddcollaboratorsNotes = (noteId, data, token) => {
+  return axios.post(
+    process.env.REACT_APP_API_BASE_URL +
+      notesApiConstants.notes +
+      "/" +
+      noteId +
+      notesApiConstants.AddcollaboratorsNotes,
+    data,
+    {
+      headers: { Authorization: token },
+    }
+  );
+};
