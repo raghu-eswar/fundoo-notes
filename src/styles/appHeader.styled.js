@@ -65,7 +65,7 @@ const LogoContainer = styled.div`
   }
 `;
 const Icon = styled(FiberManualRecordIcon)`
-  margin: 5px 10px 0px 5px;
+  margin: 5px 10px 5px 5px;
   font-size: xx-large;
   color: #f15bb5;
   filter: drop-shadow(0px 0px 1px #000) drop-shadow(0px 9px 2px #ffffff)
