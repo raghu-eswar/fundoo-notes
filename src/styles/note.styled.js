@@ -4,6 +4,7 @@ import Card from "@material-ui/core/Card";
 export const NoteContainer = styled(Card)`
   width: ${(props) => props.isGrid? '15rem': window.innerWidth/2+'px'};
   cursor: pointer;
+  transition: transform 0.8s ease-in-out;
   &.MuiPaper-rounded {
     border-radius: 8px;
   }
