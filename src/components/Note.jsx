@@ -22,6 +22,8 @@ import {
   removeReminderNotes,
   removeLabel,
   addLabel,
+  AddcollaboratorsNotes,
+  removeCollaboratorsNotes,
 } from "../services/notesServices";
 
 export default function Note(props) {
@@ -102,6 +104,32 @@ export default function Note(props) {
       (response) => response.data.data.success && props.updateNotes(props.token)
     );
   };
+  const addCollaborators = (collaberator) => {
+    AddcollaboratorsNotes(note.id, collaberator, props.token).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+    setNote({
+      ...note,
+      collaborators: [...note.collaborators, collaberator],
+    });
+  };
+  const removeCollaborators = (collaberatorToRemove) => {
+    removeCollaboratorsNotes(
+      note.id,
+      collaberatorToRemove.userId,
+      props.token
+    ).then(
+      (response) => response.data.data.success && props.updateNotes(props.token)
+    );
+    let collaborators = note.collaborators;
+    let newcollaborators = collaborators.filter(
+      (collaberator) => collaberator.userId !== collaberatorToRemove.userId
+    );
+    setNote({
+      ...note,
+      collaborators: newcollaborators,
+    });
+  };
 
   return (
     <Styled.NoteContainer
@@ -154,13 +182,23 @@ export default function Note(props) {
           <LabelChip label={label} removeLabels={removeLabels} />
         ))}
         {note.collaborators.map((collaborator) => (
-          <CollaboratorsAvatar collaborator={collaborator} />
+          <CollaboratorsAvatar
+            collaborator={collaborator}
+            removeCollaborators={removeCollaborators}
+          />
         ))}
         <Styled.DescriptionContainer>
           {!note.isDeleted && (
             <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
           )}
-          {!note.isDeleted && <Collaborate />}
+          {!note.isDeleted && (
+            <Collaborate
+              token={props.token}
+              addCollaborators={addCollaborators}
+              removeCollaborators={removeCollaborators}
+              collaborators={note.collaborators}
+            />
+          )}
           {!note.isDeleted && (
             <AddColor
               color={note.color}
