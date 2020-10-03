@@ -31,7 +31,7 @@ export default function AppHeader(props) {
           <MenuIcon />
         </IconButton>
         <Styled.Logo />
-        <Styled.SearchBar />
+        <Styled.SearchBar onChange={props.filterSearchedNotes} />
         <Styled.HeaderOptions>
           <IconButton>
             <Styled.StyledSearchIcon />
@@ -47,7 +47,7 @@ export default function AppHeader(props) {
             src={props.imageUrl}
             alt={props.firstLetter}
             onClick={openProfile}
-            style={{cursor: "pointer"}}
+            style={{ cursor: "pointer" }}
           ></Avatar>
           <Popover
             open={anchorEl}

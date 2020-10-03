@@ -26,6 +26,7 @@ class Dashboard extends React.Component {
       labels: [],
       isLoading: false,
       activeNotesList: [],
+      search: false,
     };
   }
 
@@ -140,6 +141,7 @@ class Dashboard extends React.Component {
     this.setState({
       selectedMenuOption: selectedMenuOption,
       activeNotesList: activeNotesList,
+      search: false,
     });
   };
   upDateProfileImage = (imageUrl) => {
@@ -147,6 +149,18 @@ class Dashboard extends React.Component {
     user.imageUrl = imageUrl;
     this.setState({ user: user });
     localStorage.setItem("user", JSON.stringify(user));
+  };
+
+  filterSearchedNotes = (event) => {
+    let searchWord = event.target.value;
+    if (searchWord) {
+      let filteredNotes = this.state.notes.filter(
+        (note) =>
+          note.title.includes(searchWord) ||
+          note.description.includes(searchWord)
+      );
+      this.setState({ activeNotesList: filteredNotes, search: true });
+    } else this.selectMenuOption(this.state.selectedMenuOption);
   };
   render() {
     return (
@@ -167,6 +181,7 @@ class Dashboard extends React.Component {
           firstLetter={
             this.state.user ? this.state.user.email.charAt(0).toUpperCase() : ""
           }
+          filterSearchedNotes={this.filterSearchedNotes}
         ></AppHeader>
         <Styled.MainContainer>
           <SideNavBar
@@ -176,15 +191,16 @@ class Dashboard extends React.Component {
             labels={this.state.labels}
           />
           <div style={{ width: "100%" }}>
-            {(this.state.selectedMenuOption !== menuOptions.ARCHIVE &&
-              this.state.selectedMenuOption !== menuOptions.TRASH) && (
-              <AddNewNote
-                token={this.state.user ? this.state.user.token : ""}
-                updateNotes={this.updateNotes}
-                labels={this.state.labels}
-                selectedMenuOption={this.state.selectedMenuOption}
-              />
-            )}
+            {this.state.selectedMenuOption !== menuOptions.ARCHIVE &&
+              this.state.selectedMenuOption !== menuOptions.TRASH &&
+              !this.state.search && (
+                <AddNewNote
+                  token={this.state.user ? this.state.user.token : ""}
+                  updateNotes={this.updateNotes}
+                  labels={this.state.labels}
+                  selectedMenuOption={this.state.selectedMenuOption}
+                />
+              )}
             <Styled.NotesContainer>
               <div
                 className="pinedNotesContainer"
