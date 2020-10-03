@@ -77,13 +77,13 @@ const Icon = styled(FiberManualRecordIcon)`
   filter: drop-shadow(0px 0px 1px #000) drop-shadow(0px 9px 2px #ffffff)
     drop-shadow(-9px -4px 0px #9b5de5) drop-shadow(9px -4px 0px #fee440);
 `;
-export const SearchBar = () => (
+export const SearchBar = (props) => (
   <SearchContainer>
     <SearchIconContainer>
       <SearchIcon></SearchIcon>
     </SearchIconContainer>
     <SearchInputWraper>
-      <InputBase placeholder="Search.."></InputBase>
+      <InputBase placeholder="Search.." onChange={props.onChange}></InputBase>
     </SearchInputWraper>
   </SearchContainer>
 );
