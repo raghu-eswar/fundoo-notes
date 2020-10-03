@@ -44,8 +44,14 @@ const SearchInputWraper = styled.span`
     padding: 8px 8px 8px 0px;
     padding-left: calc(1em + 32px);
   }
-  &:hover .MuiInputBase-input {
+  &:hover .MuiInputBase-input,
+  .MuiInputBase-input:focus {
     color: black;
+  }
+  .MuiInputBase-root .MuiInputBase-input:focus {
+    background-color: rgba(255, 255, 255);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
   }
 `;
 const LogoContainer = styled.div`
