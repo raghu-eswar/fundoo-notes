@@ -12,6 +12,7 @@ import LabelChip from "./LabelChip";
 import SketchTool from "./SketchTool";
 import SketchBoard from "./SketchBoard.jsx";
 import DisplaySketchBoard from "./DisplaySketchBoard";
+import CollaboratorsAvatar from "./CollaboratorsAvatar";
 import Modal from "@material-ui/core/Modal";
 import * as Styled from "../styles/addNewNote.styled";
 import { addNotes } from "../services/notesServices";
@@ -63,6 +64,7 @@ export default function AddNewNote(props) {
       formData.append("isPined", note.isPined);
       formData.append("isArchived", note.isArchived);
       formData.append("labelIdList", JSON.stringify(note.labelIdList));
+      formData.append("collaberators", JSON.stringify(note.collaborators));
       if (drawing.objects.length > 0) {
         let description =
           note.description + " $SKETCH" + JSON.stringify(drawing);
@@ -121,6 +123,22 @@ export default function AddNewNote(props) {
       noteLabels: oldNoteLabels,
     });
   };
+  const addCollaborators = (collaberator) => {
+    setNote({
+      ...note,
+      collaborators: [...note.collaborators, collaberator],
+    });
+  };
+  const removeCollaborators = (collaberatorToRemove) => {
+    let collaborators = note.collaborators;
+    let newcollaborators = collaborators.filter(
+      (collaberator) => collaberator.userId !== collaberatorToRemove.userId
+    );
+    setNote({
+      ...note,
+      collaborators: newcollaborators,
+    });
+  };
 
   return (
     <>
@@ -172,9 +190,21 @@ export default function AddNewNote(props) {
           note.noteLabels.map((label) => (
             <LabelChip label={label} removeLabels={removeLabels} />
           ))}
+        {open &&
+          note.collaborators.map((collaborator) => (
+            <CollaboratorsAvatar
+              collaborator={collaborator}
+              removeCollaborators={removeCollaborators}
+            />
+          ))}
         <Styled.OptionsContainer open={open}>
           <Reminder addReminder={addReminder} reminder={note.reminder[0]} />
-          <Collaborate token={props.token}/>
+          <Collaborate
+            token={props.token}
+            addCollaborators={addCollaborators}
+            removeCollaborators={removeCollaborators}
+            collaborators={note.collaborators}
+          />
           <AddColor addColor={addColor} color={note.color} />
           <AddImage />
           <ArchiveNote
