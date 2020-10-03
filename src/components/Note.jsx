@@ -10,6 +10,7 @@ import ArchiveNote from "./ArchiveNote";
 import MoreNoteOptions from "./MoreNoteOptions";
 import ReminderChip from "./ReminderChip";
 import DisplaySketchBoard from "./DisplaySketchBoard";
+import CollaboratorsAvatar from "./CollaboratorsAvatar";
 import LabelChip from "./LabelChip";
 import * as Styled from "../styles/note.styled";
 import {
@@ -151,6 +152,9 @@ export default function Note(props) {
         )}
         {note.noteLabels.map((label) => (
           <LabelChip label={label} removeLabels={removeLabels} />
+        ))}
+        {note.collaborators.map((collaborator) => (
+          <CollaboratorsAvatar collaborator={collaborator} />
         ))}
         <Styled.DescriptionContainer>
           {!note.isDeleted && (
